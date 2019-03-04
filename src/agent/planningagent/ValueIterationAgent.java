@@ -69,8 +69,58 @@ public class ValueIterationAgent extends PlanningValueAgent{
 		//lorsque delta < epsilon 
 		//Dans cette classe, il  faut juste mettre a jour delta 
 		this.delta=0.0;
+
+
 		//*** VOTRE CODE
-		
+		HashMap<Etat,Double> newV = new HashMap<Etat,Double>(V);
+
+		//Pour chaque états
+		for (Map.Entry<Etat, Double> entry : newV.entrySet() ) {
+			Etat etat = entry.getKey();
+			Double preV = entry.getValue();
+
+
+			//Get initial vMaxEtat;
+			Double vMaxEtat = V.get(etat);
+			
+			//Pour chacun de ses actions possible
+			for (Action action : mdp.getActionsPossibles(etat)) {
+
+				//On récupère les états cibles possible de cette action
+				Map<Etat, Double> etatsCibles;
+				try {
+					etatsCibles = mdp.getEtatTransitionProba(etat, action);
+				} catch (Exception e) {
+					//action non autorisé dans etat donné
+					e.printStackTrace();
+					return;
+				}
+
+
+				//Pour chaque etat cibles, on calcule V
+				for (Map.Entry<Etat, Double> entryCible : etatsCibles.entrySet() ) {
+					Etat cible = entryCible.getKey();
+					Double probaTransition = entryCible.getValue();
+
+					//Calcul de V
+					Double currentV = probaTransition * (mdp.getRecompense(etat, action, cible) + gamma * V.get(etat));
+
+					if ( currentV > vMaxEtat ) {
+						vMaxEtat = currentV;
+					}
+				}
+			}
+
+
+			//Met à jour l'état avec le V maximum possible.
+			newV.put(etat, vMaxEtat);
+			//Pour chacun de ses voisins (etats accessibles)
+
+
+		}
+
+		//replace old V map with new one
+		V = newV;
 		
 		//mise a jour de vmax et vmin utilise pour affichage du gradient de couleur:
 		//vmax est la valeur max de V pour tout s 
@@ -88,8 +138,9 @@ public class ValueIterationAgent extends PlanningValueAgent{
 	 */
 	@Override
 	public Action getAction(Etat e) {
+
 		//*** VOTRE CODE
-		
+
 		return Action2D.NONE;
 		
 	}
