@@ -1,5 +1,6 @@
 package agent.planningagent;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,9 @@ public class ValueIterationAgent extends PlanningValueAgent{
 	 * fonction de valeur des etats
 	 */
 	protected HashMap<Etat,Double> V;
-	
+
+
+	protected HashMap<Etat, Action> bestActions = new HashMap<Etat, Action>();
 	/**
 	 * 
 	 * @param gamma
@@ -43,8 +46,10 @@ public class ValueIterationAgent extends PlanningValueAgent{
 		this.gamma = gamma;
 		
 		this.V = new HashMap<Etat,Double>();
+		this.bestActions = new HashMap<Etat, Action>();
 		for (Etat etat:this.mdp.getEtatsAccessibles()){
 			V.put(etat, 0.0);
+			this.bestActions.put(etat, Action2D.NONE);
 		}
 	}
 	
@@ -73,12 +78,12 @@ public class ValueIterationAgent extends PlanningValueAgent{
 
 		//*** VOTRE CODE
 		HashMap<Etat,Double> newV = new HashMap<Etat,Double>(V);
-
 		//Pour chaque états
-		for (Map.Entry<Etat, Double> entry : newV.entrySet() ) {
-			Etat etat = entry.getKey();
-			Double preV = entry.getValue();
+		for (Etat etat : mdp.getEtatsAccessibles() ) {
+			//Etat etat = entry.getKey();
+			//Double preV = entry.getValue(); //ancienne valeur de V
 
+			this.bestActions.put(etat, Action2D.NONE);
 
 			//Get initial vMaxEtat;
 			Double vMaxEtat = V.get(etat);
@@ -93,31 +98,62 @@ public class ValueIterationAgent extends PlanningValueAgent{
 				} catch (Exception e) {
 					//action non autorisé dans etat donné
 					e.printStackTrace();
-					return;
+					continue;
 				}
 
+				if (etatsCibles.isEmpty()) {
+					continue;
+				}
 
 				//Pour chaque etat cibles, on calcule V
+				Double currentV = 0d;
 				for (Map.Entry<Etat, Double> entryCible : etatsCibles.entrySet() ) {
 					Etat cible = entryCible.getKey();
 					Double probaTransition = entryCible.getValue();
 
-					//Calcul de V
-					Double currentV = probaTransition * (mdp.getRecompense(etat, action, cible) + gamma * V.get(etat));
 
-					if ( currentV > vMaxEtat ) {
-						vMaxEtat = currentV;
-					}
+					//System.out.println("Recompense etat : " + cible.toString() + ", " + mdp.getRecompense(etat, action, cible));
+					//Calcul de V
+					currentV += probaTransition * (mdp.getRecompense(etat, action, cible) + gamma * V.get(cible));
+
+				}
+
+				//On garde le meilleur V *et son action associé
+				if ( currentV > vMaxEtat ) {
+					vMaxEtat = currentV;
+					this.bestActions.put(etat, action);
+				}
+
+				//Update Vmin and Vmax
+				if ( this.vmin > currentV ) {
+					this.vmin = currentV;
+				}
+				if ( this.vmax < currentV ) {
+					this.vmax = currentV;
 				}
 			}
 
 
 			//Met à jour l'état avec le V maximum possible.
 			newV.put(etat, vMaxEtat);
+
 			//Pour chacun de ses voisins (etats accessibles)
 
 
 		}
+
+		//Calcul de delta
+		Double maxDelta = 0d;
+		Double diff;
+		for (Map.Entry<Etat, Double> entry : V.entrySet() ) {
+			Etat etat = entry.getKey();
+			Double oldV = entry.getValue();
+			diff = Math.abs(newV.get(etat) - oldV);
+			if ( diff > maxDelta ) maxDelta = diff;
+		}
+		this.delta = maxDelta;
+
+
 
 		//replace old V map with new one
 		V = newV;
@@ -140,8 +176,9 @@ public class ValueIterationAgent extends PlanningValueAgent{
 	public Action getAction(Etat e) {
 
 		//*** VOTRE CODE
+		return this.bestActions.get(e);
 
-		return Action2D.NONE;
+		//return Action2D.NONE;
 		
 	}
 
@@ -151,8 +188,8 @@ public class ValueIterationAgent extends PlanningValueAgent{
                  //Renvoie la valeur de l'Etat _e, c'est juste un getter, ne calcule pas la valeur ici
                  //(la valeur est calculee dans updateV
 		//*** VOTRE CODE
-		
-		return 0.0;
+		return V.get(_e);
+		//return 0.0;
 	}
 	/**
 	 * renvoi action(s) de plus forte(s) valeur(s) dans etat 
@@ -165,6 +202,7 @@ public class ValueIterationAgent extends PlanningValueAgent{
 		// retourne action de meilleure valeur dans _e selon V, 
 		// retourne liste vide si aucune action legale (etat absorbant)
 		List<Action> returnactions = new ArrayList<Action>();
+		returnactions.add(getAction(_e));
 	
 		return returnactions;
 		
@@ -175,6 +213,10 @@ public class ValueIterationAgent extends PlanningValueAgent{
 		super.reset();
                 //reinitialise les valeurs de V 
 		//*** VOTRE CODE
+
+		for (Etat etat : mdp.getEtatsAccessibles() ) {
+			V.put(etat, 0d);
+		}
 		
 		this.notifyObs();
 	}
