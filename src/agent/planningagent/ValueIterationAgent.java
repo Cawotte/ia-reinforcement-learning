@@ -35,7 +35,7 @@ public class ValueIterationAgent extends PlanningValueAgent{
 	protected HashMap<Etat,Double> V;
 
 
-	protected HashMap<Etat, Action> bestActions = new HashMap<Etat, Action>();
+	protected HashMap<Etat, List<Action>> bestActions = new HashMap<>();
 	/**
 	 * 
 	 * @param gamma
@@ -46,10 +46,10 @@ public class ValueIterationAgent extends PlanningValueAgent{
 		this.gamma = gamma;
 		
 		this.V = new HashMap<Etat,Double>();
-		this.bestActions = new HashMap<Etat, Action>();
+		this.bestActions = new HashMap<Etat, List<Action>>();
 		for (Etat etat:this.mdp.getEtatsAccessibles()){
 			V.put(etat, 0.0);
-			this.bestActions.put(etat, Action2D.NONE);
+			this.bestActions.put(etat, new ArrayList<>());
 		}
 	}
 	
@@ -83,11 +83,17 @@ public class ValueIterationAgent extends PlanningValueAgent{
 			//Etat etat = entry.getKey();
 			//Double preV = entry.getValue(); //ancienne valeur de V
 
-			this.bestActions.put(etat, Action2D.NONE);
+			this.bestActions.put(etat, new ArrayList<>());
 
-			//Get initial vMaxEtat;
-			Double vMaxEtat = V.get(etat);
-			
+			Double lastBestV = 0d;
+			/*
+			Double lastBestV = Double.MIN_VALUE; //V.get(etat);
+			if (mdp.estAbsorbant(etat)) {
+				lastBestV = 0d; //V.get(etat);
+			}*/
+
+			List<Action> actions;
+
 			//Pour chacun de ses actions possible
 			for (Action action : mdp.getActionsPossibles(etat)) {
 
@@ -111,7 +117,6 @@ public class ValueIterationAgent extends PlanningValueAgent{
 					Etat cible = entryCible.getKey();
 					Double probaTransition = entryCible.getValue();
 
-
 					//System.out.println("Recompense etat : " + cible.toString() + ", " + mdp.getRecompense(etat, action, cible));
 					//Calcul de V
 					currentV += probaTransition * (mdp.getRecompense(etat, action, cible) + gamma * V.get(cible));
@@ -119,23 +124,27 @@ public class ValueIterationAgent extends PlanningValueAgent{
 				}
 
 				//On garde le meilleur V *et son action associé
-				if ( currentV > vMaxEtat ) {
-					vMaxEtat = currentV;
-					this.bestActions.put(etat, action);
+				if ( currentV > lastBestV ) {
+					//We replace the last best with a new one
+					lastBestV = currentV;
+					actions = new ArrayList<>();
+					actions.add(action);
+					this.bestActions.put(etat, actions);
 				}
+				if ( currentV.equals(lastBestV) ) {
+					//We add the current actions to the best option known.
+					this.bestActions.get(etat).add(action);
+				}
+			}
 
-				//Update Vmin and Vmax
-				if ( this.vmin > currentV ) {
-					this.vmin = currentV;
-				}
-				if ( this.vmax < currentV ) {
-					this.vmax = currentV;
-				}
+			//We add the NONE action if there's no good action.
+			if ( this.bestActions.get(etat).isEmpty() ) {
+				this.bestActions.get(etat).add(Action2D.NONE);
 			}
 
 
 			//Met à jour l'état avec le V maximum possible.
-			newV.put(etat, vMaxEtat);
+			newV.put(etat, lastBestV);
 
 			//Pour chacun de ses voisins (etats accessibles)
 
@@ -162,7 +171,18 @@ public class ValueIterationAgent extends PlanningValueAgent{
 		//vmax est la valeur max de V pour tout s 
 		//vmin est la valeur min de V pour tout s
 		// ...
-		
+		this.vmax = Double.MIN_VALUE;
+		this.vmin = Double.MAX_VALUE;
+		for (Etat etat : mdp.getEtatsAccessibles() ) {
+			Double v = V.get(etat);
+			if (v > vmax ) {
+				this.vmax = v;
+			}
+			if (v < vmin ) {
+				this.vmin = v;
+			}
+		}
+
 		//******************* laisser cette notification a la fin de la methode	
 		this.notifyObs();
 	}
@@ -176,7 +196,14 @@ public class ValueIterationAgent extends PlanningValueAgent{
 	public Action getAction(Etat e) {
 
 		//*** VOTRE CODE
-		return this.bestActions.get(e);
+		List<Action> actions = this.bestActions.get(e);
+
+		if (actions.isEmpty()) {
+			return Action2D.NONE;
+		}
+		else {
+			return actions.get(0); //get random instead?
+		}
 
 		//return Action2D.NONE;
 		
@@ -198,13 +225,16 @@ public class ValueIterationAgent extends PlanningValueAgent{
 	@Override
 	public List<Action> getPolitique(Etat _e) {
 		//*** VOTRE CODE
-		
-		// retourne action de meilleure valeur dans _e selon V, 
+
+
+		return bestActions.get(_e);
+		/*
+			// retourne action de meilleure valeur dans _e selon V,
 		// retourne liste vide si aucune action legale (etat absorbant)
 		List<Action> returnactions = new ArrayList<Action>();
 		returnactions.add(getAction(_e));
 	
-		return returnactions;
+		return returnactions;*/
 		
 	}
 	

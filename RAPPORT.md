@@ -1,14 +1,19 @@
-**Nom/Prénom Etudiant 1 :**
-
-**Nom/Prénom Etudiant 2 :**
+**Nom/Prénom Etudiant 1 : ENSUQUE Elie**
 
 # Rapport TP1
 
 ## Question 5.1 Brigde Grid
 *Donnez les valeurs des paramètres et la justification de ces choix*
 
+bruit = 0
+
 ## Question 5.2 Discount Grid
 *Donnez les valeurs des paramètres dans cahque cas et la justification de ces choix*
+
+1. 
+2. Chemin risqué pour l'état absorbant +10 : lambda = 0.0
+3. Chemin sûr pour l'état absorbant +1 : gamma = 0.3
+4. Eviter états absorbants : Récompense +5.
 
 
 # Rapport TP2
