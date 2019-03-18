@@ -32,10 +32,18 @@ public class StrategyGreedy extends StrategyExploration{
 		if (this.agent.getActionsLegales(_e).isEmpty()){
 			return null;
 		}
-	
+
+		if ( rand.nextDouble() > this.epsilon) {
+			actions = this.agent.getPolitique(_e);
+		}
+		else {
+			actions = this.agent.getActionsLegales(_e);
+		}
+
+		return actions.get(rand.nextInt(actions.size()));
 		//VOTRE CODE ***
 		
-		return null;
+		//return null;
 	}
 
 	public double getEpsilon() {

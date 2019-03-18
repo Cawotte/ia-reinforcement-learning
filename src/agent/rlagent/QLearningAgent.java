@@ -114,7 +114,7 @@ public class QLearningAgent extends RLAgent {
 			pair = new HashMap<Action, Double>();
 			pair.put(a, 0d);
 			qvaleurs.put(e, pair);
-		}
+	}
 		//If the action is not mapped to state, add it
 		if ( !qvaleurs.get(e).containsKey(a) ) {
 			pair = qvaleurs.get(e);
@@ -133,16 +133,20 @@ public class QLearningAgent extends RLAgent {
 
 		qvaleurs.get(e).put(a, d);
 
-		if (d < this.vmin) {
-			this.vmin = d;
-		}
-		if (d > this.vmax) {
-			this.vmax = d;
-		}
 		// mise a jour vmax et vmin pour affichage du gradient de couleur:
-				//vmax est la valeur de max pour tout s de V
-				//vmin est la valeur de min pour tout s de V
-				// ...
+		//vmax est la valeur de max pour tout s de V
+		//vmin est la valeur de min pour tout s de V
+		// ...
+		Double qval;
+		for (Etat etat : qvaleurs.keySet() ) {
+			qval = getValeur(etat);
+			if (vmin > qval) {
+				vmin = qval;
+			}
+			if (vmax < qval) {
+				vmax = qval;
+			}
+		}
 		
 		
 		this.notifyObs();
