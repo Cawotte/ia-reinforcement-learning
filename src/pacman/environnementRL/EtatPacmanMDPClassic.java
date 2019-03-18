@@ -12,11 +12,34 @@ import environnement.Etat;
  */
 public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
-	
+	protected int hash;
+	protected StateGamePacman stateGame;
 	public EtatPacmanMDPClassic(StateGamePacman _stategamepacman){
-	
-		
-		
+
+		stateGame = _stategamepacman;
+		/*
+		StateAgentPacman pacman = _stategamepacman.getPacmanState(0);
+		StateAgentPacman ghost = _stategamepacman.getGhostState(0);
+
+		hash = 0;
+		hash += pacman.getX();
+		hash += pacman.getY() * 10;
+		hash += ghost.getX() * 10;
+		hash += ghost.getY() * 10;*/
+	}
+
+	@Override
+	public int hashCode() {
+
+		StateAgentPacman pacman = stateGame.getPacmanState(0);
+		StateAgentPacman ghost = stateGame.getGhostState(0);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((pacman == null) ? 0 : pacman.hashCode());
+		result = prime * result
+				+ ((ghost == null) ? 0 : ghost.hashCode());
+		return result;
 	}
 	
 	@Override
