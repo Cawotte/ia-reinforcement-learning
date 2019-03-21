@@ -47,6 +47,10 @@ que d'atteindre un des états absorbants.
 ## Question 1:
 *Précisez et justifiez les éléments que vous avez utilisés pour la définition d’un état du MDP pour le jeu du Pacman (partie 2.2)*
 
+Le temps d'exécution et efficacité de l'algorithme est lié au nombre d'états :
+100+ = Rapide + fiable (90%+)
+200+ = Moyen + bon (80%+)
+
 
 ## Question 2:
 *Précisez et justifiez les fonctions caractéristiques que vous avez choisies pour la classe FeatureFunctionPacman (partie 2.3).*

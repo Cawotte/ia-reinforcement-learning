@@ -173,6 +173,12 @@ public class QLearningAgent extends RLAgent {
 	}
 
 	@Override
+	public void endEpisode() {
+		System.out.println("Nb etats = " + qvaleurs.size());
+		super.endEpisode();
+	}
+
+	@Override
 	public Action getAction(Etat e) {
 		this.actionChoisie = this.stratExplorationCourante.getAction(e);
 		return this.actionChoisie;

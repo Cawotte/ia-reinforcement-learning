@@ -2,7 +2,9 @@ package pacman.environnementRL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
+import pacman.elements.MazePacman;
 import pacman.elements.StateAgentPacman;
 import pacman.elements.StateGamePacman;
 import environnement.Etat;
@@ -12,34 +14,112 @@ import environnement.Etat;
  */
 public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
-	protected int hash;
-	protected StateGamePacman stateGame;
+	protected int pac_x;
+	protected int pac_y;
+	protected int ghost_x;
+	protected int ghost_y;
+	protected int distanceDot;
+	protected int directionDot;
+	protected int distanceGhost;
+	protected int directionGhost;
+	protected int foodLeft;
+	protected int foodEaten;
+	protected int ghostHash;
+
 	public EtatPacmanMDPClassic(StateGamePacman _stategamepacman){
 
-		stateGame = _stategamepacman;
-		/*
 		StateAgentPacman pacman = _stategamepacman.getPacmanState(0);
-		StateAgentPacman ghost = _stategamepacman.getGhostState(0);
 
-		hash = 0;
-		hash += pacman.getX();
-		hash += pacman.getY() * 10;
-		hash += ghost.getX() * 10;
-		hash += ghost.getY() * 10;*/
+
+		distanceGhost = 0;
+		directionGhost = MazePacman.NORTH; //arbitrary default value
+		pac_x = pacman.getX();
+		pac_y = pacman.getY();
+		/*
+		//Get closest ghost
+		for (int i = 0; i < _stategamepacman.getNumberOfGhosts(); i++) {
+			StateAgentPacman ghost = _stategamepacman.getGhostState(i);
+			ghost_x = ghost.getX();
+			ghost_y = ghost.getY();
+
+			int distance = Math.abs(ghost_x - pac_x) + Math.abs(ghost_y - pac_y);
+			if ( distance < distanceGhost && distance < 4) {
+				distanceGhost = distance;
+				directionGhost = getDirection(pac_x, pac_y, ghost_x, ghost_y);
+			}
+		} */
+
+
+		//Full Ghost Hash
+
+		ghostHash = 0;
+		distanceGhost = 0;
+		for (int i = 0; i < _stategamepacman.getNumberOfGhosts(); i++) {
+			StateAgentPacman ghost = _stategamepacman.getGhostState(i);
+			ghost_x = ghost.getX();
+			ghost_y = ghost.getY();
+
+			int distance = Math.abs(ghost_x - pac_x) + Math.abs(ghost_y - pac_y);
+			if ( distance < 3 ) {
+				distanceGhost = distance;
+				directionGhost = getDirection(pac_x, pac_y, ghost_x, ghost_y);
+			}
+			else {
+				distanceGhost = 0;
+				directionGhost = MazePacman.NORTH;
+			}
+			ghostHash = Objects.hash(ghostHash, distanceGhost, directionGhost);
+		}
+
+
+		distanceDot = _stategamepacman.getClosestDot(pacman);
+		foodLeft = _stategamepacman.getMaze().getNbfood() - _stategamepacman.getCapsulesEaten();
+		foodEaten = _stategamepacman.getCapsulesEaten();
 	}
 
 	@Override
 	public int hashCode() {
 
-		StateAgentPacman pacman = stateGame.getPacmanState(0);
-		StateAgentPacman ghost = stateGame.getGhostState(0);
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((pacman == null) ? 0 : pacman.hashCode());
-		result = prime * result
-				+ ((ghost == null) ? 0 : ghost.hashCode());
-		return result;
+		//return Objects.hash(distanceDot, distanceGhost, directionGhost);
+		return Objects.hash(distanceDot, ghostHash);
+		//return Objects.hash(distanceDot, ghost_x, ghost_y);
+
+	}
+
+	private int getDirection(int x1, int y1, int x2, int y2) {
+
+		float angle = getAngle(x1, y1, x2, y2);
+		if (angle < 45) {
+			return MazePacman.EAST;
+		}
+		else if (angle < 135) {
+			return MazePacman.NORTH;
+		}
+		if (angle < 225 ) {
+			return MazePacman.WEST;
+		}
+		else if (angle < 315){
+			return MazePacman.SOUTH;
+		}
+		else {
+			return MazePacman.EAST;
+		}
+	}
+
+	public float getAngle(int x1, int y1, int x2, int y2) {
+		float angle = (float) Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+
+		if(angle < 0){
+			angle += 360;
+		}
+
+		return angle;
+	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		return (hashCode() == o.hashCode());
 	}
 	
 	@Override
