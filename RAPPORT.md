@@ -83,13 +83,13 @@ va développer un ordre de ramassage favori des Dot, et ainsi repérer où il en
 
 Voici une table de résultats obtenus avec différents critères :
 
-|Critères| % de succès smallLayout | % de succès smallLayout2 | % de succès MediumLayout
+|Critères| % de succès smallGrid2 | % de succès smallGrid2 | % de succès mediumGrid
 | -------------------- | ----- | ----- | ---- 
-|Coordonnées fantômes<br>Distance Dot le plus proche<br> | 10%<br>(20 Etats) | 10%<br>(20 Etats) | 10%<br>(20 Etats) |
-|Coordonnées fantômes<br>Critère 2<br>Critère 3 | 10%<br>(20 Etats) | 10%<br>(20 Etats) | 10%<br>(20 Etats) |
-|Coordonnées fantômes<br>Critère 2<br>Critère 3 | 10%<br>(20 Etats) | 10%<br>(20 Etats) | 10%<br>(20 Etats) |
-|Coordonnées fantômes<br>Critère 2<br>Critère 3 | 10%<br>(20 Etats) | 10%<br>(20 Etats) | 10%<br>(20 Etats) |
-|Coordonnées fantômes<br>Critère 2<br>Critère 3 | 10%<br>(20 Etats) | 10%<br>(20 Etats) | 10%<br>(20 Etats) |
+|Coordonnées des fantômes<br>Distance Dot le plus proche<br> | 89%<br>(~100 Etats) | 70%<br>(~180 Etats) | ??%<br>(20 Etats) |
+|Coordonnées des fantômes<br>Distance Dot le plus proche<br>Nombre de dot restants | 92%<br>(~150 Etats) | 85%<br>(~375 Etats) | ??%<br>(20 Etats) |
+|Distance Dot le plus proche<br>Distance fantôme le plus proche<br>Direction fantôme le plus proche | 96%<br>(~130 Etats) | 87%<br>(~140 Etats) | ??%<br>(20 Etats) |
+|Distance Dot le plus proche<br>Distance fantôme le plus proche (**si d<4**)<br>Direction fantôme le plus proche(**si d<4**) | 92%<br>(~63 Etats) | 90%<br>(~54 Etats) | 10%<br>(20 Etats) |
+|Coordonnées fantômes<br>Critère 2<br>Critère 3 | 10%<br>(~20 Etats) | 10%<br>(~20 Etats) | 10%<br>(20 Etats) |
 
 //REmarque mega esquive
 

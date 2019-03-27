@@ -34,6 +34,11 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 		directionGhost = MazePacman.NORTH; //arbitrary default value
 		pac_x = pacman.getX();
 		pac_y = pacman.getY();
+		ghost_x = _stategamepacman.getGhostState(0).getX();
+		ghost_y = _stategamepacman.getGhostState(0).getY();
+
+		//region
+
 		/*
 		//Get closest ghost
 		for (int i = 0; i < _stategamepacman.getNumberOfGhosts(); i++) {
@@ -71,17 +76,31 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 			ghostHash = Objects.hash(ghostHash, distanceGhost, directionGhost);
 		}*/
 
+		//endregion
 
-		distanceDot = _stategamepacman.getClosestDot(pacman);
 		foodLeft = _stategamepacman.getMaze().getNbfood() - _stategamepacman.getCapsulesEaten();
 		foodEaten = _stategamepacman.getCapsulesEaten();
+
+		distanceDot = _stategamepacman.getClosestDot(pacman);
+
+		StateAgentPacman closestGhost = getClosestGhost(_stategamepacman, 2);
+
+		directionGhost = getDirection(pacman, closestGhost);
+		distanceGhost = getDistance(pacman, closestGhost);
+
+		//Coordinate ghost
+		ghostHash = getGhostPosHash(_stategamepacman);
 	}
 
 	@Override
 	public int hashCode() {
 
-		//return Objects.hash(distanceDot, distanceGhost, directionGhost);
-		return Objects.hash(distanceDot, ghostHash, foodLeft);
+		//return Objects.hash(distanceDot, ghostHash, foodLeft);
+		//return Objects.hash(distanceDot, ghost_x, ghost_y);
+
+		return Objects.hash(distanceDot, distanceGhost, directionGhost);
+
+		//return Objects.hash(distanceDot, ghostHash, foodLeft);
 		//return Objects.hash(distanceDot, ghost_x, ghost_y);
 
 	}
@@ -92,7 +111,12 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 			StateAgentPacman ghost = stateGame.getGhostState(i);
 			int ghost_x = ghost.getX();
 			int ghost_y = ghost.getY();
-			hash = Objects.hash(hash, ghost_x, ghost_y);
+
+			hash *= 10;
+			hash += ghost_x;
+			hash *= 10;
+			hash += ghost_y;
+			//hash = Objects.hash(hash, ghost_x, ghost_y);
 		}
 		return hash;
 	}
@@ -102,13 +126,13 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 		StateAgentPacman pacman = stateGame.getPacmanState(0);
 		StateAgentPacman closestGhost = null;
 
-		int minDistanceGhost = maxDistance;
+		int minDistanceGhost = Integer.MAX_VALUE;
 
 		for (int i = 0; i < stateGame.getNumberOfGhosts(); i++) {
 			StateAgentPacman ghost = stateGame.getGhostState(i);
 			int distance = getDistance(pacman, ghost);
 
-			if ( minDistanceGhost >= distance && distance < maxDistance) {
+			if ( minDistanceGhost > distance && distance <= maxDistance) {
 				minDistanceGhost = distance;
 				closestGhost = ghost;
 			}
@@ -118,11 +142,11 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 	}
 
 	private int getDistance(StateAgentPacman pacman, StateAgentPacman ghost) {
-		return Math.abs(ghost.getX() - pacman.getX()) + Math.abs(ghost.getY() - pacman.getY());
+		return (ghost != null) ? Math.abs(ghost.getX() - pacman.getX()) + Math.abs(ghost.getY() - pacman.getY()) : 0;
 	}
 
 	private int getDirection(StateAgentPacman pacman, StateAgentPacman ghost) {
-		return getDirection( pacman.getX(), pacman.getY(), ghost.getX(), ghost.getY());
+		return (ghost != null) ? getDirection( pacman.getX(), pacman.getY(), ghost.getX(), ghost.getY()) : 0;
 	}
 
 	private int getDirection(int x1, int y1, int x2, int y2) {
