@@ -83,7 +83,7 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
 		distanceDot = _stategamepacman.getClosestDot(pacman);
 
-		StateAgentPacman closestGhost = getClosestGhost(_stategamepacman, 2);
+		StateAgentPacman closestGhost = getClosestGhost(_stategamepacman, 3);
 
 		directionGhost = getDirection(pacman, closestGhost);
 		distanceGhost = getDistance(pacman, closestGhost);
@@ -96,9 +96,11 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 	public int hashCode() {
 
 		//return Objects.hash(distanceDot, ghostHash, foodLeft);
+		//return Objects.hash(distanceDot, ghostHash);
 		//return Objects.hash(distanceDot, ghost_x, ghost_y);
 
-		return Objects.hash(distanceDot, distanceGhost, directionGhost);
+		return Objects.hash(pac_x, pac_y, distanceGhost, directionGhost);
+		//return Objects.hash(distanceDot, distanceGhost, directionGhost);
 
 		//return Objects.hash(distanceDot, ghostHash, foodLeft);
 		//return Objects.hash(distanceDot, ghost_x, ghost_y);

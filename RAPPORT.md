@@ -77,26 +77,59 @@ Je n'ai hélas pas réussi à calculer la direction du Dot le plus proche, cela 
 - **Le nombre de Dot mangés** et **le nombre de Dot restants** : Derrière ce choix ce cache l'espoir qu'au fur et à mesure de l'entraînement, le Pacman
 va développer un ordre de ramassage favori des Dot, et ainsi repérer où il en est et vers où se diriger en fonction du nombre de Dot restant ou mangés. 
 
-//Parler position Pacman
+Je n'ai pas utilisé la position du Pacman comme critère ou d'informations lié à la position du Pacman. Je suis parti du principe que cette information
+existe implicitement à travers les connexions entre les états, à la manière du TP1 sur les grilles. Mais maintenant que j'y repense en rédigeant ce rapport, 
+je me rends compte que j'ai probablement eu tort. Dans le TP1 chaque état représentait la case précise où se trouvait l'agent et donc ils y a bien eu un ancrage géographique concret.
+Ce que j'ai fait est donc bien plus abstrait, et s'apparente plus à une représentation de 'situation', représentant à quel point l'agent est "en danger" ou encore "proche d'un point".
 
-//Parler overtraining
+Du coup, j'ai ajouté plus tard une combinaison de critère utilisant la position du pacman pour vérifier si elle était capable de corriger
+les défauts de mes précédents essais.
+
+
+Dans ma quête d'optimisation des résultats et la tentative de franchir un seuil crédible pour la grille de taille moyenne,
+voici un tableau résumant les résultats que j'ai obtenus avec différentes combinaisons de critères, où j'inscris le pourcentage de succès moyen
+du pacman après entraînement, et le nombre d'états moyen générées. (Mon code générant les états au fur et à mesure de leur 
+utilisation, il arrive d'avoir moins d'états que la maximum théorique).
+
 
 Voici une table de résultats obtenus avec différents critères :
 
-|Critères| % de succès smallGrid2 | % de succès smallGrid2 | % de succès mediumGrid
+|Critères| % de succès<br>smallGrid2 | % de succès<br>smallGrid2 | % de succès<br>mediumGrid
 | -------------------- | ----- | ----- | ---- 
-|Coordonnées des fantômes<br>Distance Dot le plus proche<br> | 89%<br>(~100 Etats) | 70%<br>(~180 Etats) | ??%<br>(20 Etats) |
-|Coordonnées des fantômes<br>Distance Dot le plus proche<br>Nombre de dot restants | 92%<br>(~150 Etats) | 85%<br>(~375 Etats) | ??%<br>(20 Etats) |
-|Distance Dot le plus proche<br>Distance fantôme le plus proche<br>Direction fantôme le plus proche | 96%<br>(~130 Etats) | 87%<br>(~140 Etats) | ??%<br>(20 Etats) |
-|Distance Dot le plus proche<br>Distance fantôme le plus proche (**si d<4**)<br>Direction fantôme le plus proche(**si d<4**) | 92%<br>(~63 Etats) | 90%<br>(~54 Etats) | 10%<br>(20 Etats) |
-|Coordonnées fantômes<br>Critère 2<br>Critère 3 | 10%<br>(~20 Etats) | 10%<br>(~20 Etats) | 10%<br>(20 Etats) |
+|- Coordonnées des fantômes<br>- Distance Dot le plus proche<br> | 89%<br>(~100 Etats) | 65%<br>(~180 Etats) | <5%<br>(11 000+ Etats) |
+|- Coordonnées des fantômes<br>- Distance Dot le plus proche<br>- Nombre de dot restants | 92%<br>(~150 Etats) | 85%<br>(~375 Etats) | <5%<br>(17 000+ Etats) |
+|- Distance Dot le plus proche<br>- Distance fantôme le plus proche<br>- Direction fantôme le plus proche | 96%<br>(~130 Etats) | 87%<br>(~140 Etats) | <5%<br>(1 800+ Etats) |
+|- Distance Dot le plus proche<br>- Distance fantôme le plus proche (**si d<4**)<br>- Direction fantôme le plus proche (**si d<4**) | 92%<br>(~63 Etats) | 90%<br>(~54 Etats) | <5%<br>(~300 Etats) |
+|- Coordonnées Pacman<br>- Distance fantôme le plus proche (**si d<4**)<br>- Direction fantôme le plus proche (**si d<4**) | <5%<br>(~80 Etats) | 93%<br>(~135 Etats) | <5%<br>(1 200+ Etats) |
 
-//REmarque mega esquive
+Au final, je n'aurais pas réussi à avoir un temps raisonnable sur la grille de taille moyenne. Voici par contre plusieurs remarques et 
+observations intéressantes que j'ai pu déduire de mes tests, qui sont surtout valables pour la grille moyenne :
 
-Le temps d'exécution et efficacité de l'algorithme est lié au nombre d'états :
-100+ = Rapide + fiable (90%+)
-200+ = Moyen + bon (80%+)
 
+**Sur-simplification** : Le revers de l'optimisation. A trop réduire le nombre d'états, il arrive que différentes cases et situations ne sont plus 
+assez différenciables et qu'il prennent des décisions similaire là où il devrait faire plus la différence. C'est surtout important pour la grille moyenne, où
+le pacman s'est régulièrement trouver à errer dans le même coin de la carte sans explorer le reste. En fait, de nombreuses choses découle de ce problème :
+
+
+**Représentation pas assez géographique?** : Je pense que mes critères n'ont pas assez représenté où en était l'agent géographiquement, et ne lui ont pas permis
+assez d'explorer le terrain pour chercher plus de points, le bloquant dans une zone de la grille car au lieu de voir comment il devait chercher des points,
+il voyait comment devenir un...
+
+**Un Dieu de l'Esquive** : Oui, quitte à ne pas savoir collecter tout les points, à travers mes critères, Pacman est devenu extrêmement bon pour survivre
+face aux fantômes. A vrai dire le temps de calcul de mes dernières combinaisons de critères sur la grille moyenne était très longue non car il y avait beaucoup d'états,
+mais car il passait facilement plus de 1000-2000 pas d'itérations avant de perdre à chaque essai.  (**Record actuel : 10 001**) Si la récompense par pas était positive,
+mes choix critères aurait sûrement eu des résultats excellents partout.
+
+**Résultats surprenants avec les coordonnées du Pacman** : Après l'ajout des coordonnées des pacman comme critères pour ma dernière combinaison,
+j'ai eu des résultats très surprenant. L'agent est devenu extrêmement mauvais sur la première petite grille, mais
+il est aussi devenu un Dieu-Dieu de l'Esquive, touchant systématiquement la limite des 10 000 pas. Toutefois il a gardé de très bon résultats
+sur la seconde grille moyenne. 
+
+Pour la première petite grille, ses résultats sembleait chuter et atteindre une limite critique vers la moitié/deux-tiers de
+son entraînement, possiblement un bug à l'oeuvre ?
+
+**Conclusion** : C'était un exercice intéressant, mais il semblent effectivement que l'approche tabulaire à ses limites, notamment quand on 
+traite des environnements large où qui ne peuvent être représenté simplement. 
 
 ## Question 2:
 *Précisez et justifiez les fonctions caractéristiques que vous avez choisies pour la classe FeatureFunctionPacman (partie 2.3).*
