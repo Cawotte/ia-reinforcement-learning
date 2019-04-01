@@ -19,7 +19,7 @@ import javafx.util.Pair;
 public class FeatureFunctionIdentity implements FeatureFunction {
 	//*** VOTRE CODE
 
-	protected HashMap<Etat,HashMap<Action,Integer>> coupleIDs;
+	protected HashMap<Etat,HashMap<Action,Integer>> coupleIDs = new HashMap<>();
 	protected int id = 0;
 	protected double[] values;
 

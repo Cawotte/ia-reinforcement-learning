@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+import pacman.elements.ActionPacman;
 import pacman.elements.MazePacman;
 import pacman.elements.StateAgentPacman;
 import pacman.elements.StateGamePacman;
@@ -82,6 +83,7 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 		foodEaten = _stategamepacman.getCapsulesEaten();
 
 		distanceDot = _stategamepacman.getClosestDot(pacman);
+		directionDot = getDirectionNextDot(_stategamepacman);
 
 		StateAgentPacman closestGhost = getClosestGhost(_stategamepacman, 3);
 
@@ -95,9 +97,11 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 	@Override
 	public int hashCode() {
 
+        //return Objects.hash(distanceDot, ghost_x, ghost_y);
+
+        return Objects.hash(directionDot, distanceGhost, directionGhost);
 		//return Objects.hash(distanceDot, ghostHash, foodLeft);
 		//return Objects.hash(distanceDot, ghostHash);
-		return Objects.hash(distanceDot, ghost_x, ghost_y);
 
 		//return Objects.hash(pac_x, pac_y, distanceGhost, directionGhost);
 		//return Objects.hash(distanceDot, distanceGhost, directionGhost);
@@ -126,6 +130,23 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 		}
 		return hash;
 	}
+
+	private int getDirectionNextDot(StateGamePacman stateGame) {
+	    StateAgentPacman pacman = stateGame.getPacmanState(0);
+	    int currentDotDistance = stateGame.getClosestDot(pacman);
+        int bestDir = 0;
+	    //4 dir + map
+	    for (int dir = 0; dir < 5; dir++) {
+
+            StateGamePacman nextGameState = stateGame.nextStatePacman(new ActionPacman(dir));
+            if ( nextGameState.getClosestDot(nextGameState.getPacmanState(0)) <= currentDotDistance ) {
+                bestDir = dir;
+                currentDotDistance = nextGameState.getClosestDot(nextGameState.getPacmanState(0));
+            }
+        }
+
+	    return bestDir;
+    }
 
 	private StateAgentPacman getClosestGhost(StateGamePacman stateGame, int maxDistance) {
 

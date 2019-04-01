@@ -102,6 +102,7 @@ Voici une table de résultats obtenus avec différents critères :
 |- Distance Dot le plus proche<br>- Distance fantôme le plus proche (**si d<4**)<br>- Direction fantôme le plus proche (**si d<4**) | 92%<br>(~63 Etats) | 90%<br>(~54 Etats) | <5%<br>(~300 Etats) |
 |- Coordonnées Pacman<br>- Distance fantôme le plus proche (**si d<4**)<br>- Direction fantôme le plus proche (**si d<4**) | <5%<br>(~80 Etats) | 93%<br>(~135 Etats) | <5%<br>(1 200+ Etats) |
 
+26 etat : 93%, 26 etats : 93%, 26 etats : 81%, medium : 66 etat, 44%
 Au final, je n'aurais pas réussi à avoir un temps raisonnable sur la grille de taille moyenne. Voici par contre plusieurs remarques et 
 observations intéressantes que j'ai pu déduire de mes tests, qui sont surtout valables pour la grille moyenne :
 
@@ -133,3 +134,5 @@ traite des environnements large où qui ne peuvent être représenté simplement
 
 ## Question 2:
 *Précisez et justifiez les fonctions caractéristiques que vous avez choisies pour la classe FeatureFunctionPacman (partie 2.3).*
+
+Smallgrid : Distance dot, ghost x, ghost y

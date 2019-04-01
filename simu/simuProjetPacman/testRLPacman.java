@@ -28,7 +28,7 @@ import agent.strategy.StrategyExplorationTest1;
 
 public class testRLPacman extends Application{
 	/** type de labyrinthe pour le jeu de pacman*/
-	static String mazename = "pacmanlayouts/smallGrid.lay";//smallGrid smallGrid2 mediumGrid
+	static String mazename = "pacmanlayouts/mediumGrid.lay";//smallGrid smallGrid2 mediumGrid
 
 	// parametres RL*/
 	static double gamma=0.8;
@@ -67,16 +67,17 @@ public class testRLPacman extends Application{
 	
 	private static void setRLAgent(){
 		//QLearning tabulaire classique
-		//pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
-		//rlagent = new QLearningAgent(alpha,gamma,pacmanmdp);
+		pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
+		rlagent = new QLearningAgent(alpha,gamma,pacmanmdp);
 
 		//Qlearning avec fonctions caracteristiques identite
+        /*
 		pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
 	    EtatPacmanMDPClassic etatmdp = (EtatPacmanMDPClassic) pacmanmdp.getEtatCourant();
 		System.out.println("Dimensions de etatMDP: "+etatmdp.getDimensions());
 		FeatureFunction featurefunction = new FeatureFunctionIdentity(etatmdp.getDimensions(),4);
 		rlagent = new QLApproxAgent(alpha,gamma,pacmanmdp,featurefunction);
-
+*/
 		//QLearning avec approximation lineaire
 	/*	pacmanmdp = new EnvironnementPacmanFeatureRL(mazename,true);//smallGrid smallGrid2 mediumGrid
 		FeatureFunction featurefunction2 = new FeatureFunctionPacman();
