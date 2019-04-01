@@ -17,10 +17,20 @@ import environnement.Etat;
  *
  */
 public class QLApproxAgent extends QLearningAgent{
-	
+
+	private FeatureFunction features;
+	private double[] weights;
+
 	public QLApproxAgent(double alpha, double gamma, Environnement _env,FeatureFunction _featurefunction) {
 		super(alpha, gamma, _env);
+
 		//*** VOTRE CODE
+
+		this.features = _featurefunction;
+		this.weights = new double[_featurefunction.getFeatureNb()];
+
+		for (int i = 0; i < this.weights.length; i++)
+			this.weights[i] = 1d;
 		
 	}
 
@@ -28,7 +38,18 @@ public class QLApproxAgent extends QLearningAgent{
 	@Override
 	public double getQValeur(Etat e, Action a) {
 		//*** VOTRE CODE
-		return 0.0;
+
+		super.getQValeur(e, a); //Used to verify if states exists in hashmap
+
+		double qVal = 0d;
+		double[] qValues = features.getFeatures(e, a);
+
+		for (int i = 0; i < qValues.length; i++) {
+
+			qVal += weights[i] * qValues[i];
+		}
+
+		return qVal;
 
 	}
 	
@@ -44,7 +65,12 @@ public class QLApproxAgent extends QLearningAgent{
 		//arrete episode lq etat courant absorbant	
 		
 		//*** VOTRE CODE
-		
+		//Update weights
+		for (int i = 0; i < weights.length; i++) {
+			weights[i] = weights[i] + alpha * (reward + (gamma * getValeur(esuivant)) - getQValeur(e, a)) * features.getFeatures(e,a)[i];
+		}
+
+
 		
 	}
 	
@@ -54,6 +80,8 @@ public class QLApproxAgent extends QLearningAgent{
 		this.qvaleurs.clear();
 	
 		//*** VOTRE CODE
+		for (int i = 0; i < this.weights.length; i++)
+			this.weights[i] = 1d;
 		
 		this.episodeNb =0;
 		this.notifyObs();

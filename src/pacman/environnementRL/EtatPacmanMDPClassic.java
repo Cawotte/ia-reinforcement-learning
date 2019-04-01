@@ -97,14 +97,18 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
 		//return Objects.hash(distanceDot, ghostHash, foodLeft);
 		//return Objects.hash(distanceDot, ghostHash);
-		//return Objects.hash(distanceDot, ghost_x, ghost_y);
+		return Objects.hash(distanceDot, ghost_x, ghost_y);
 
-		return Objects.hash(pac_x, pac_y, distanceGhost, directionGhost);
+		//return Objects.hash(pac_x, pac_y, distanceGhost, directionGhost);
 		//return Objects.hash(distanceDot, distanceGhost, directionGhost);
 
 		//return Objects.hash(distanceDot, ghostHash, foodLeft);
 		//return Objects.hash(distanceDot, ghost_x, ghost_y);
 
+	}
+
+	public int getDimensions() {
+		return 110;
 	}
 
 	private int getGhostPosHash(StateGamePacman stateGame) {

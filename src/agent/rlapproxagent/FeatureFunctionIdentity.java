@@ -18,22 +18,49 @@ import javafx.util.Pair;
  */
 public class FeatureFunctionIdentity implements FeatureFunction {
 	//*** VOTRE CODE
-	
+
+	protected HashMap<Etat,HashMap<Action,Integer>> coupleIDs;
+	protected int id = 0;
+	protected double[] values;
+
 	public FeatureFunctionIdentity(int _nbEtat, int _nbAction){
 		//*** VOTRE CODE
+		values = new double[_nbEtat * _nbAction];
+
 	}
 	
 	@Override
 	public int getFeatureNb() {
 		//*** VOTRE CODE
-		return 0;
+		return values.length;
 	}
 
 	@Override
 	public double[] getFeatures(Etat e,Action a){
 		//*** VOTRE CODE
-		
-		return null;
+		for (int i = 0; i < values.length; i++) {
+			values[i] = 0d;
+		}
+		values[getID(e, a)] = 1d;
+
+		return values;
+	}
+
+	private int getID(Etat e, Action a) {
+
+		if (!coupleIDs.containsKey(e)) {
+			HashMap<Action, Integer> actionID = new HashMap<>();
+			actionID.put(a, id++);
+			coupleIDs.put(e, actionID);
+		}
+		else if (!coupleIDs.get(e).containsKey(a)) {
+			coupleIDs.get(e).put(a, id++);
+		}
+
+		if (id > values.length) {
+			System.out.println("Error max id reached");
+		}
+		return coupleIDs.get(e).get(a);
 	}
 	
 
