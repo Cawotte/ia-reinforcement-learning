@@ -52,6 +52,10 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 		return values;
 	}
 
+	public int getSizeID() {
+		return id;
+	}
+
 	private int getID(Etat e, Action a) {
 
 		if (!coupleIDs.containsKey(e)) {

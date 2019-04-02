@@ -68,7 +68,7 @@ public class QLApproxAgent extends QLearningAgent{
 		return qVal;
 
 	}
-	
+
 	
 	@Override
 	public void endStep(Etat e, Action a, Etat esuivant, double reward) {
@@ -85,11 +85,17 @@ public class QLApproxAgent extends QLearningAgent{
 		}
 
 	}
+	@Override
+	public void endEpisode() {
+		System.out.println(weightsToString());
+		super.endEpisode();
+	}
+
 	
 	@Override
 	public void reset() {
 		super.reset();
-		this.qvaleurs.clear();
+		//this.qvaleurs.clear();
 	
 		//*** VOTRE CODE
 		for (int i = 0; i < this.weights.length; i++)
@@ -97,6 +103,22 @@ public class QLApproxAgent extends QLearningAgent{
 		
 		this.episodeNb =0;
 		this.notifyObs();
+	}
+
+	public String weightsToString() {
+		StringBuilder sb = new StringBuilder();
+
+
+		int sizeID = ((FeatureFunctionIdentity)features).getSizeID();
+		sb.append("Weights : [");
+		for (int i = 0; i < sizeID; i++) {
+			sb.append(String.format("%.2f", weights[i])).append(", ");
+			if (i != 0 && i % 20 == 0)
+				sb.append("\n");
+		}
+		sb.append("]\n");
+
+		return sb.toString();
 	}
 	
 	
