@@ -210,6 +210,13 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
 	@Override
 	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		else if (this.getClass() != o.getClass()) {
+			return false;
+		}
+
 		return (hashCode() == o.hashCode());
 	}
 	

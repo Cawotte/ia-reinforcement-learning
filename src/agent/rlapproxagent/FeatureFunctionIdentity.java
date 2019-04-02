@@ -21,12 +21,16 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 
 	protected HashMap<Etat,HashMap<Action,Integer>> coupleIDs = new HashMap<>();
 	protected int id = 0;
+	protected int lastID = 0;
 	protected double[] values;
 
 	public FeatureFunctionIdentity(int _nbEtat, int _nbAction){
 		//*** VOTRE CODE
 		values = new double[_nbEtat * _nbAction];
 
+		for (int i = 0; i < values.length; i++) {
+			values[i] = 0d;
+		}
 	}
 	
 	@Override
@@ -38,10 +42,12 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 	@Override
 	public double[] getFeatures(Etat e,Action a){
 		//*** VOTRE CODE
-		for (int i = 0; i < values.length; i++) {
+		/*for (int i = 0; i < values.length; i++) {
 			values[i] = 0d;
-		}
-		values[getID(e, a)] = 1d;
+		}*/
+		values[lastID] = 0d;
+		lastID = getID(e, a);
+		values[lastID] = 1d;
 
 		return values;
 	}

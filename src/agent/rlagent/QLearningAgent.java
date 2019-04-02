@@ -174,7 +174,8 @@ public class QLearningAgent extends RLAgent {
 
 	@Override
 	public void endEpisode() {
-		System.out.println("Nb etats = " + qvaleurs.size());
+		if (qvaleurs != null && !qvaleurs.isEmpty())
+			System.out.println("Nb etats = " + qvaleurs.size());
 		super.endEpisode();
 	}
 

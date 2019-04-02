@@ -34,26 +34,40 @@ public class QLApproxAgent extends QLearningAgent{
 		
 	}
 
-	
+	@Override
+	public double getValeur(Etat e) {
+
+		Double qmax = Double.NEGATIVE_INFINITY;
+
+		if (this.getActionsLegales(e).size() == 0) {
+			return 0d;
+		}
+		//For each action, find q.
+		for (Action a : env.getActionsPossibles(e)) {
+
+			if ( qmax < getQValeur(e, a) ) {
+				qmax = getQValeur(e, a);
+			}
+		}
+		return qmax;
+	}
+
 	@Override
 	public double getQValeur(Etat e, Action a) {
 		//*** VOTRE CODE
 
-		super.getQValeur(e, a); //Used to verify if states exists in hashmap
+		//super.getQValeur(e, a); //Used to verify if states exists in hashmap
 
 		double qVal = 0d;
 		double[] qValues = features.getFeatures(e, a);
 
 		for (int i = 0; i < qValues.length; i++) {
-
 			qVal += weights[i] * qValues[i];
 		}
 
 		return qVal;
 
 	}
-	
-	
 	
 	
 	@Override
@@ -70,8 +84,6 @@ public class QLApproxAgent extends QLearningAgent{
 			weights[i] = weights[i] + alpha * (reward + (gamma * getValeur(esuivant)) - getQValeur(e, a)) * features.getFeatures(e,a)[i];
 		}
 
-
-		
 	}
 	
 	@Override
