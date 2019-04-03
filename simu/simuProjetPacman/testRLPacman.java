@@ -28,7 +28,7 @@ import agent.strategy.StrategyExplorationTest1;
 
 public class testRLPacman extends Application{
 	/** type de labyrinthe pour le jeu de pacman*/
-	static String mazename = "pacmanlayouts/smallGrid.lay";//smallGrid smallGrid2 mediumGrid
+	static String mazename = "pacmanlayouts/mediumGrid.lay";//smallGrid smallGrid2 mediumGrid
 
 	// parametres RL*/
 	static double gamma=0.8;
@@ -71,6 +71,7 @@ public class testRLPacman extends Application{
 		//rlagent = new QLearningAgent(alpha,gamma,pacmanmdp);
 
 		//Qlearning avec fonctions caracteristiques identite
+
 
 		pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
 	    EtatPacmanMDPClassic etatmdp = (EtatPacmanMDPClassic) pacmanmdp.getEtatCourant();

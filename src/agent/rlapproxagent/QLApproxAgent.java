@@ -1,9 +1,6 @@
 package agent.rlapproxagent;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import agent.rlagent.QLearningAgent;
 import agent.rlagent.RLAgent;
 import environnement.Action;
@@ -32,24 +29,6 @@ public class QLApproxAgent extends QLearningAgent{
 		for (int i = 0; i < this.weights.length; i++)
 			this.weights[i] = 1d;
 		
-	}
-
-	@Override
-	public double getValeur(Etat e) {
-
-		Double qmax = Double.NEGATIVE_INFINITY;
-
-		if (this.getActionsLegales(e).size() == 0) {
-			return 0d;
-		}
-		//For each action, find q.
-		for (Action a : env.getActionsPossibles(e)) {
-
-			if ( qmax < getQValeur(e, a) ) {
-				qmax = getQValeur(e, a);
-			}
-		}
-		return qmax;
 	}
 
 	@Override
@@ -83,6 +62,7 @@ public class QLApproxAgent extends QLearningAgent{
 		for (int i = 0; i < weights.length; i++) {
 			weights[i] = weights[i] + alpha * (reward + (gamma * getValeur(esuivant)) - getQValeur(e, a)) * features.getFeatures(e,a)[i];
 		}
+		maxValues.clear();
 
 	}
 	@Override
@@ -110,7 +90,7 @@ public class QLApproxAgent extends QLearningAgent{
 
 
 		int sizeID = ((FeatureFunctionIdentity)features).getSizeID();
-		sb.append("Weights : [");
+		sb.append("Weights : [\n");
 		for (int i = 0; i < sizeID; i++) {
 			sb.append(String.format("%.2f", weights[i])).append(", ");
 			if (i != 0 && i % 20 == 0)

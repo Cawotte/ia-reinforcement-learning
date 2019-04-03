@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javafx.util.Pair;
 import environnement.Action;
 import environnement.Environnement;
 import environnement.Etat;
@@ -19,6 +18,8 @@ public class QLearningAgent extends RLAgent {
 	 */
 	protected HashMap<Etat,HashMap<Action,Double>> qvaleurs;
 
+	//Used for dynamic programming
+	protected HashMap<Etat, Double> maxValues = new HashMap<>();
 	
 	//AU CHOIX: vous pouvez utiliser une Map avec des Pair pour clés si vous préférez
 	//protected HashMap<Pair<Etat,Action>,Double> qvaleurs;
@@ -86,7 +87,7 @@ public class QLearningAgent extends RLAgent {
 	@Override
 	public double getValeur(Etat e) {
 
-		//*** VOTRE CODE
+		/*
 		Double qmax = Double.NEGATIVE_INFINITY;
 
 		if (this.getActionsLegales(e).size() == 0) {
@@ -95,11 +96,35 @@ public class QLearningAgent extends RLAgent {
 		//For each action, find q.
 		for (Action a : env.getActionsPossibles(e)) {
 
-			if ( qmax < getQValeur(e, a) ) {
-				qmax = getQValeur(e, a);
+			Double val = getQValeur(e, a);
+			if ( qmax < val ) {
+				qmax = val;
 			}
 		}
-		return qmax;
+		return qmax;*/
+
+		//*** VOTRE CODE
+		if (!maxValues.containsKey(e)) {
+
+			Double qmax = Double.NEGATIVE_INFINITY;
+
+			if (this.getActionsLegales(e).size() == 0) {
+				return 0d;
+			}
+			//For each action, find q.
+			for (Action a : env.getActionsPossibles(e)) {
+
+				Double val = getQValeur(e, a);
+				if ( qmax < val ) {
+					qmax = val;
+				}
+			}
+			maxValues.put(e, qmax);
+			return qmax;
+		}
+
+		return maxValues.get(e);
+
 		
 	}
 
@@ -170,6 +195,8 @@ public class QLearningAgent extends RLAgent {
 		//*** VOTRE CODE
 		Double qval = (1 - this.alpha) * getQValeur(e, a) + this.alpha * (reward + this.gamma * getValeur(esuivant));
 		setQValeur(e, a, qval);
+
+		maxValues.clear();
 	}
 
 	@Override
