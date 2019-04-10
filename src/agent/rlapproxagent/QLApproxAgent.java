@@ -27,7 +27,7 @@ public class QLApproxAgent extends QLearningAgent{
 		this.weights = new double[_featurefunction.getFeatureNb()];
 
 		for (int i = 0; i < this.weights.length; i++)
-			this.weights[i] = 1d;
+			this.weights[i] = 0d;
 		
 	}
 
@@ -40,6 +40,9 @@ public class QLApproxAgent extends QLearningAgent{
 		double qVal = 0d;
 		double[] qValues = features.getFeatures(e, a);
 
+		if (features instanceof FeatureFunctionIdentity) {
+			tryExtendWeights((FeatureFunctionIdentity)features);
+		}
 		for (int i = 0; i < qValues.length; i++) {
 			qVal += weights[i] * qValues[i];
 		}
@@ -67,7 +70,8 @@ public class QLApproxAgent extends QLearningAgent{
 	}
 	@Override
 	public void endEpisode() {
-		System.out.println(weightsToString());
+		System.out.println(features.toString());
+		//System.out.println(weightsToString());
 		super.endEpisode();
 	}
 
@@ -85,20 +89,22 @@ public class QLApproxAgent extends QLearningAgent{
 		this.notifyObs();
 	}
 
-	public String weightsToString() {
-		StringBuilder sb = new StringBuilder();
+	private void tryExtendWeights(FeatureFunctionIdentity features) {
 
-
-		int sizeID = ((FeatureFunctionIdentity)features).getSizeID();
-		sb.append("Weights : [\n");
-		for (int i = 0; i < sizeID; i++) {
-			sb.append(String.format("%.2f", weights[i])).append(", ");
-			if (i != 0 && i % 20 == 0)
-				sb.append("\n");
+		if (features.getFeatureNb() <= weights.length) {
+			return;
 		}
-		sb.append("]\n");
 
-		return sb.toString();
+		System.out.println("Extend nb weigts !");
+		double[] newWeights = new double[features.getFeatureNb()];
+		for (int i = 0; i < weights.length; i++) {
+			newWeights[i] = weights[i];
+		}
+		for (int i = weights.length; i < features.getFeatureNb(); i++) {
+			newWeights[i] = 1d;
+		}
+
+		this.weights = newWeights;
 	}
 	
 	

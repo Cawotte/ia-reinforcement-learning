@@ -230,7 +230,7 @@ public class QLearningAgent extends RLAgent {
 
 
 
-	
+
 
 
 }
