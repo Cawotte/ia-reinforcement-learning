@@ -66,18 +66,23 @@ public class testRLPacman extends Application{
 	static Scene scene;
 	
 	private static void setRLAgent(){
-		//QLearning tabulaire classique
-		//pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
-		//rlagent = new QLearningAgent(alpha,gamma,pacmanmdp);
 
-		//Qlearning avec fonctions caracteristiques identite
+	    int choiceLearning = 1;
 
+	    if (choiceLearning == 0) {
 
-		pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
-	    EtatPacmanMDPClassic etatmdp = (EtatPacmanMDPClassic) pacmanmdp.getEtatCourant();
-		System.out.println("Dimensions de etatMDP: "+etatmdp.getDimensions());
-		FeatureFunction featurefunction = new FeatureFunctionIdentity(/*etatmdp.getDimensions(),4*/);
-		rlagent = new QLApproxAgent(alpha,gamma,pacmanmdp,featurefunction);
+            //QLearning tabulaire classique
+            pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
+            rlagent = new QLearningAgent(alpha,gamma,pacmanmdp);
+        }
+	    else  {
+            //Qlearning avec fonctions caracteristiques identite
+            pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
+            EtatPacmanMDPClassic etatmdp = (EtatPacmanMDPClassic) pacmanmdp.getEtatCourant();
+            //System.out.println("Dimensions de etatMDP: "+etatmdp.getDimensions());
+            FeatureFunction featurefunction = new FeatureFunctionIdentity(/*etatmdp.getDimensions(),4*/);
+            rlagent = new QLApproxAgent(alpha,gamma,pacmanmdp,featurefunction);
+        }
 
 		//QLearning avec approximation lineaire
 	/*	pacmanmdp = new EnvironnementPacmanFeatureRL(mazename,true);//smallGrid smallGrid2 mediumGrid

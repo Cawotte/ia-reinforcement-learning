@@ -22,6 +22,9 @@ import javax.jws.Oneway;
 public class FeatureFunctionIdentity implements FeatureFunction {
 	//*** VOTRE CODE
 
+    /**
+     * Associe un index différent du tableau valeur à chaque couples (action, etat)
+     */
 	protected HashMap<Etat,HashMap<Action,Integer>> coupleIDs = new HashMap<>();
 	protected int id = 0;
 	protected int lastID = 0;
@@ -61,9 +64,9 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 		//new id
 		lastID = getID(e, a);
 
-		//We increase the size of the values vector if it's not big enough
+		//We increase the size of the values vector if it's not big enough anymore
 		if (lastID == values.length) {
-			System.out.println("Incremented values !");
+			System.out.println("Features size increased ! " + id + " ==> " + (id + 10));
 			values = new double[id + 10];
 			for (int i = 0; i < values.length; i++) values[i] = 0d;
 		}
@@ -91,7 +94,7 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 	@Override
 	public String toString() {
 		String str = "";
-		str += "Nb poids = " + id + " / " + values.length + " (nb Etats)";
+		str += "Nombre de poids = " + id + " / " + values.length + " (taille vecteur)";
 		return str;
 	}
 

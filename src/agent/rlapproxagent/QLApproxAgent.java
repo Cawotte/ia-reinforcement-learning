@@ -35,7 +35,6 @@ public class QLApproxAgent extends QLearningAgent{
 	public double getQValeur(Etat e, Action a) {
 		//*** VOTRE CODE
 
-		//super.getQValeur(e, a); //Used to verify if states exists in hashmap
 
 		double qVal = 0d;
 		double[] qValues = features.getFeatures(e, a);
@@ -43,6 +42,7 @@ public class QLApproxAgent extends QLearningAgent{
 		if (features instanceof FeatureFunctionIdentity) {
 			tryExtendWeights((FeatureFunctionIdentity)features);
 		}
+
 		for (int i = 0; i < qValues.length; i++) {
 			qVal += weights[i] * qValues[i];
 		}
@@ -71,7 +71,7 @@ public class QLApproxAgent extends QLearningAgent{
 	@Override
 	public void endEpisode() {
 		System.out.println(features.toString());
-		//System.out.println(weightsToString());
+		//System.out.println(weightsToString(weights.length - 10));
 		super.endEpisode();
 	}
 
@@ -83,25 +83,41 @@ public class QLApproxAgent extends QLearningAgent{
 	
 		//*** VOTRE CODE
 		for (int i = 0; i < this.weights.length; i++)
-			this.weights[i] = 1d;
+			this.weights[i] = 0d;
 		
 		this.episodeNb =0;
 		this.notifyObs();
 	}
 
+	private String weightsToString(int startIndex) {
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("[\n");
+	    for (int i = startIndex; i < weights.length; i++) {
+            if (i % 20 == 0 && i != startIndex) {
+                sb.append("\n");
+            }
+            sb.append(weights[i] + ", ");
+        }
+        sb.append("\n]");
+
+	    return sb.toString();
+    }
+
 	private void tryExtendWeights(FeatureFunctionIdentity features) {
 
+	    //If the number of weights increased
 		if (features.getFeatureNb() <= weights.length) {
 			return;
 		}
 
-		System.out.println("Extend nb weigts !");
 		double[] newWeights = new double[features.getFeatureNb()];
+		//Restore existing weights
 		for (int i = 0; i < weights.length; i++) {
 			newWeights[i] = weights[i];
 		}
+		//Initialize new weights
 		for (int i = weights.length; i < features.getFeatureNb(); i++) {
-			newWeights[i] = 1d;
+			newWeights[i] = 0d;
 		}
 
 		this.weights = newWeights;
