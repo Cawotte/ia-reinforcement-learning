@@ -69,9 +69,10 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
         //return Objects.hash(distanceDot, ghost_x, ghost_y);
 
         //was bad
-        //return Objects.hash(distanceDot, distanceGhost, directionGhost);
+        return Objects.hash(distanceDot, distanceGhost, directionGhost);
 
-        return Objects.hash(directionDot, distanceGhost, directionGhost);
+        //good
+        //return Objects.hash(directionDot, distanceGhost, directionGhost);
 
 
 		//return Objects.hash(distanceDot, ghostHash, foodLeft);

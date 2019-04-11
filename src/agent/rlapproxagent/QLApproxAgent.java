@@ -27,7 +27,7 @@ public class QLApproxAgent extends QLearningAgent{
 		this.weights = new double[_featurefunction.getFeatureNb()];
 
 		for (int i = 0; i < this.weights.length; i++)
-			this.weights[i] = 0d;
+			this.weights[i] = 1d;
 		
 	}
 
@@ -62,15 +62,24 @@ public class QLApproxAgent extends QLearningAgent{
 		
 		//*** VOTRE CODE
 		//Update weights
+		double[] featuresValues = features.getFeatures(e,a);
 		for (int i = 0; i < weights.length; i++) {
-			weights[i] = weights[i] + alpha * (reward + (gamma * getValeur(esuivant)) - getQValeur(e, a)) * features.getFeatures(e,a)[i];
+			weights[i] = weights[i] + alpha * (reward + (gamma * getValeur(esuivant)) - getQValeur(e, a)) * featuresValues[i];
 		}
 		maxValues.clear();
 
 	}
 	@Override
 	public void endEpisode() {
-		System.out.println(features.toString());
+		if (features instanceof FeatureFunctionIdentity) {
+			System.out.println("isIdentity");
+			System.out.println(features.toString());
+		}
+		else {
+			System.out.println("isFeatures");
+			System.out.println(weightsToString(0));
+			System.out.println(((FeatureFunctionPacman)features).meansToString());
+		}
 		//System.out.println(weightsToString(weights.length - 10));
 		super.endEpisode();
 	}
@@ -96,7 +105,7 @@ public class QLApproxAgent extends QLearningAgent{
             if (i % 20 == 0 && i != startIndex) {
                 sb.append("\n");
             }
-            sb.append(weights[i] + ", ");
+            sb.append(String.format("%2.2e",weights[i])).append(", ");
         }
         sb.append("\n]");
 

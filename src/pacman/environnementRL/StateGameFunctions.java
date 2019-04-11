@@ -13,6 +13,40 @@ import java.util.ArrayList;
  */
 public class StateGameFunctions {
 
+
+    //region features fonction
+
+    /**
+     * Compte le nombre de fantome à une distance maxDistance ou moins du Pacman.
+     * @param stateGame
+     * @param maxDistance
+     * @return
+     */
+    public static int getNbGhostAtDistance(StateGamePacman stateGame, int maxDistance) {
+
+        int nbGhost = 0;
+        StateAgentPacman pacman = stateGame.getPacmanState(0);
+        for (int i = 0; i < stateGame.getNumberOfGhosts(); i++) {
+            StateAgentPacman ghost = stateGame.getGhostState(i);
+
+            //If that ghost is at distance maxD or less from pacman, count it.
+            if (getDistance(pacman, ghost) <= maxDistance) {
+                nbGhost++;
+            }
+        }
+
+        return nbGhost;
+
+    }
+
+    public static boolean nextPositionHasDot(StateGamePacman oldState, StateGamePacman newState) {
+
+        return newState.getFoodEaten() > oldState.getFoodEaten();
+    }
+
+
+    //endregion
+
     public static int getFoodLeft(StateGamePacman stateGame) {
         return stateGame.getMaze().getNbfood() - stateGame.getCapsulesEaten();
     }
@@ -46,16 +80,6 @@ public class StateGameFunctions {
         StateAgentPacman pacman = stateGame.getPacmanState(0);
         int currentDotDistance = stateGame.getClosestDot(pacman);
         int bestDir = 4; //STOP
-        //4 dir + map
-        /*
-        for (int dir = 0; dir < 5; dir++) {
-
-            StateGamePacman nextGameState = stateGame.nextStatePacman(new ActionPacman(dir));
-            if ( nextGameState.getClosestDot(nextGameState.getPacmanState(0)) <= currentDotDistance ) {
-                bestDir = dir;
-                currentDotDistance = nextGameState.getClosestDot(nextGameState.getPacmanState(0));
-            }
-        } */
 
         ArrayList<ActionPacman> validDirections = getValidDirections(stateGame);
         for (ActionPacman action : validDirections) {

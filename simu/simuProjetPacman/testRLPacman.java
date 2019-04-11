@@ -39,15 +39,15 @@ public class testRLPacman extends Application{
 	/** nombre d'experiences a lancer (pour faire une moyenne), une experience est un apprentissage sur plusieurs parties */
 	static int nbmean = 3; //3
 	/** nombre de parties ou l'agent apprend */
-	static int nbepisodelearn = 300; //default : 500
+	static int nbepisodelearn = 500; //default : 500
 	/** nombre de partie ou l'agent exploite la politique apprise (epsilon=0) */
-	static int nbepisodegreedy = 150; //default : 300
+	static int nbepisodegreedy = 300; //default : 300
 	/** nombre de parties ou l'on affiche le jeu pacman pour voir le comportement appris  */
 	static int nbepisodegreedydisplay=1;
 
 	
 	/** pour afficher jeu de pacman en mode greedy */
-	static boolean DISPLAYPACMANGAME = false;
+	static boolean DISPLAYPACMANGAME = true;
 	/** pour afficher courbe (somme des rec par episode) a la fin  */
 	static boolean DISPLAYCHART = true;
 	/** //met un point tous les DELTA_DISPLAY epi */
@@ -67,7 +67,7 @@ public class testRLPacman extends Application{
 	
 	private static void setRLAgent(){
 
-	    int choiceLearning = 1;
+	    int choiceLearning = 2;
 
 	    if (choiceLearning == 0) {
 
@@ -75,7 +75,7 @@ public class testRLPacman extends Application{
             pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
             rlagent = new QLearningAgent(alpha,gamma,pacmanmdp);
         }
-	    else  {
+	    else if (choiceLearning == 1){
             //Qlearning avec fonctions caracteristiques identite
             pacmanmdp = new EnvironnementPacmanMDPClassic(mazename,true);
             EtatPacmanMDPClassic etatmdp = (EtatPacmanMDPClassic) pacmanmdp.getEtatCourant();
@@ -83,12 +83,14 @@ public class testRLPacman extends Application{
             FeatureFunction featurefunction = new FeatureFunctionIdentity(/*etatmdp.getDimensions(),4*/);
             rlagent = new QLApproxAgent(alpha,gamma,pacmanmdp,featurefunction);
         }
+        else {
+			//QLearning avec approximation lineaire
+			pacmanmdp = new EnvironnementPacmanFeatureRL(mazename,true);//smallGrid smallGrid2 mediumGrid
+			FeatureFunction featurefunction2 = new FeatureFunctionPacman();
+			rlagent = new QLApproxAgent(alpha,gamma,pacmanmdp,featurefunction2);
+		}
 
-		//QLearning avec approximation lineaire
-	/*	pacmanmdp = new EnvironnementPacmanFeatureRL(mazename,true);//smallGrid smallGrid2 mediumGrid
-		FeatureFunction featurefunction2 = new FeatureFunctionPacman();
-		rlagent = new QLApproxAgent(alpha,gamma,pacmanmdp,featurefunction2);
-*/
+
 
 	}
 	

@@ -7,6 +7,8 @@ import java.util.List;
 import environnement.Action;
 import environnement.Environnement;
 import environnement.Etat;
+import pacman.elements.ActionPacman;
+
 /**
  * Renvoi 0 pour valeurs initiales de Q
  * @author laetitiamatignon
@@ -61,15 +63,15 @@ public class QLearningAgent extends RLAgent {
 			return new ArrayList<Action>();
 			
 		}
-		
+
 		//*** VOTRE CODE
-		Double bestQ = Double.NEGATIVE_INFINITY;
-		Double currentQ;
+		Double bestQ = null;
+		Double currentQ = null;
 		for ( Action a : this.env.getActionsPossibles(e) ) {
 
 			//For each action, we get the Qvaleur.
 			currentQ = getQValeur(e, a);
-			if ( currentQ > bestQ ) {
+			if ( bestQ == null || currentQ > bestQ ) {
 				bestQ = currentQ;
 				returnactions = new ArrayList<>();
 				returnactions.add(a);
@@ -87,22 +89,6 @@ public class QLearningAgent extends RLAgent {
 	@Override
 	public double getValeur(Etat e) {
 
-		/*
-		Double qmax = Double.NEGATIVE_INFINITY;
-
-		if (this.getActionsLegales(e).size() == 0) {
-			return 0d;
-		}
-		//For each action, find q.
-		for (Action a : env.getActionsPossibles(e)) {
-
-			Double val = getQValeur(e, a);
-			if ( qmax < val ) {
-				qmax = val;
-			}
-		}
-		return qmax;*/
-
 		//*** VOTRE CODE
 		if (!maxValues.containsKey(e)) {
 
@@ -113,7 +99,7 @@ public class QLearningAgent extends RLAgent {
 			}
 			//For each action, find q.
 			for (Action a : env.getActionsPossibles(e)) {
-
+				//note : no STOP
 				Double val = getQValeur(e, a);
 				if ( qmax < val ) {
 					qmax = val;

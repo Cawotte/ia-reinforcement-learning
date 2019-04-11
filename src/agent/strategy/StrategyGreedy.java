@@ -35,9 +35,11 @@ public class StrategyGreedy extends StrategyExploration{
 
 		if ( rand.nextDouble() > this.epsilon) {
 			actions = this.agent.getPolitique(_e);
+			if (actions.size() == 0) System.out.println("politique!");
 		}
 		else {
 			actions = this.agent.getActionsLegales(_e);
+			if (actions.size() == 0) System.out.println("actionLegales!");
 		}
 
 		return actions.get(rand.nextInt(actions.size()));
