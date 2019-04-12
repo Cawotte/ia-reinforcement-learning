@@ -72,11 +72,9 @@ public class QLApproxAgent extends QLearningAgent{
 	@Override
 	public void endEpisode() {
 		if (features instanceof FeatureFunctionIdentity) {
-			System.out.println("isIdentity");
 			System.out.println(features.toString());
 		}
 		else {
-			System.out.println("isFeatures");
 			System.out.println(weightsToString(0));
 			System.out.println(((FeatureFunctionPacman)features).meansToString());
 		}
@@ -100,14 +98,14 @@ public class QLApproxAgent extends QLearningAgent{
 
 	private String weightsToString(int startIndex) {
 	    StringBuilder sb = new StringBuilder();
-	    sb.append("[\n");
+	    sb.append("Weights : [");
 	    for (int i = startIndex; i < weights.length; i++) {
-            if (i % 20 == 0 && i != startIndex) {
-                sb.append("\n");
+            sb.append(String.format("%2.2e",weights[i]));
+            if (i != weights.length - 1) {
+                sb.append(", ");
             }
-            sb.append(String.format("%2.2e",weights[i])).append(", ");
         }
-        sb.append("\n]");
+        sb.append("]");
 
 	    return sb.toString();
     }

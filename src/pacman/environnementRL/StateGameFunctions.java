@@ -16,6 +16,15 @@ public class StateGameFunctions {
 
     //region features fonction
 
+    public static double getClosestDotDistance(StateGamePacman stateGame) {
+
+        StateAgentPacman pacman = stateGame.getPacmanState(0);
+        int mapX = stateGame.getMaze().getSizeX();
+        int mapY = stateGame.getMaze().getSizeY();
+
+        return stateGame.getClosestDot(pacman) / (double)(mapX + mapY);
+    }
+
     /**
      * Compte le nombre de fantome à une distance maxDistance ou moins du Pacman.
      * @param stateGame

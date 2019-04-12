@@ -47,7 +47,7 @@ public class testRLPacman extends Application{
 
 	
 	/** pour afficher jeu de pacman en mode greedy */
-	static boolean DISPLAYPACMANGAME = true;
+	static boolean DISPLAYPACMANGAME = false;
 	/** pour afficher courbe (somme des rec par episode) a la fin  */
 	static boolean DISPLAYCHART = true;
 	/** //met un point tous les DELTA_DISPLAY epi */
@@ -158,7 +158,7 @@ public class testRLPacman extends Application{
 	   		System.out.print(data[i]+" ");
 	   	}
 */
-		System.out.println("PACMAN  greedy gagne "+nbwin+ " fois sur "+nbmean*nbepisodegreedy+" : "+ (nbwin*100/(nbmean*nbepisodegreedy))+"%");
+		System.out.println("PACMAN  greedy gagne "+nbwin+ " fois sur "+nbmean*nbepisodegreedy+" : "+ ((nbwin*100)/(nbmean*nbepisodegreedy))+"%");
 		if (DISPLAYPACMANGAME){
 			//pour voir jeu pacman en mode greedy
 			pacmanmdp.getGamepacman().setStep_delay(300);
