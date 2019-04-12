@@ -20,7 +20,7 @@ public class QLearningAgent extends RLAgent {
 	 */
 	protected HashMap<Etat,HashMap<Action,Double>> qvaleurs;
 
-	//Used for dynamic programming
+	//Used for dynamic programming : Avoid calculating a lot the same values at each step.
 	protected HashMap<Etat, Double> maxValues = new HashMap<>();
 	
 	//AU CHOIX: vous pouvez utiliser une Map avec des Pair pour clés si vous préférez
@@ -40,14 +40,10 @@ public class QLearningAgent extends RLAgent {
 	
 	}
 
-
-	
-	
 	/**
 	 * renvoi action(s) de plus forte(s) valeur(s) dans l'etat e
 	 *  (plusieurs actions sont renvoyees si valeurs identiques)
 	 *  renvoi liste vide si aucunes actions possibles dans l'etat (par ex. etat absorbant)
-
 	 */
 	@Override
 	public List<Action> getPolitique(Etat e) {
@@ -71,11 +67,13 @@ public class QLearningAgent extends RLAgent {
 
 			//For each action, we get the Qvaleur.
 			currentQ = getQValeur(e, a);
+			//If it's the first element or a better one, make a new list
 			if ( bestQ == null || currentQ > bestQ ) {
 				bestQ = currentQ;
 				returnactions = new ArrayList<>();
 				returnactions.add(a);
 			}
+			//If it's equivalent to our best choice, add it to the list.
 			else if ( currentQ.equals(bestQ)) {
 				returnactions.add(a);
 			}
@@ -90,6 +88,7 @@ public class QLearningAgent extends RLAgent {
 	public double getValeur(Etat e) {
 
 		//*** VOTRE CODE
+		//If we haven't already calculated it this step,
 		if (!maxValues.containsKey(e)) {
 
 			Double qmax = Double.NEGATIVE_INFINITY;
@@ -97,14 +96,15 @@ public class QLearningAgent extends RLAgent {
 			if (this.getActionsLegales(e).size() == 0) {
 				return 0d;
 			}
-			//For each action, find q.
+			//For each action possible, calculate QValue, and calculate the best
 			for (Action a : env.getActionsPossibles(e)) {
-				//note : no STOP
 				Double val = getQValeur(e, a);
 				if ( qmax < val ) {
 					qmax = val;
 				}
 			}
+
+			//Add it to the maxValues list ( dynamic programming )
 			maxValues.put(e, qmax);
 			return qmax;
 		}
@@ -126,14 +126,13 @@ public class QLearningAgent extends RLAgent {
 			pair.put(a, 0d);
 			qvaleurs.put(e, pair);
 	}
-		//If the action is not mapped to state, add it
+		//If the action is not mapped to the tate, add it
 		if ( !qvaleurs.get(e).containsKey(a) ) {
 			pair = qvaleurs.get(e);
 			pair.put(a, 0d);
 			qvaleurs.put(e, pair);
 		}
 		return qvaleurs.get(e).get(a);
-		//return 0;
 	}
 	
 	
@@ -182,6 +181,7 @@ public class QLearningAgent extends RLAgent {
 		Double qval = (1 - this.alpha) * getQValeur(e, a) + this.alpha * (reward + this.gamma * getValeur(esuivant));
 		setQValeur(e, a, qval);
 
+		//max values change at each step, so we reset it.
 		maxValues.clear();
 	}
 

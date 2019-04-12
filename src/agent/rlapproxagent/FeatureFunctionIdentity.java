@@ -42,6 +42,7 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 
 	public FeatureFunctionIdentity(){
 
+		//We initialize a small array because the size will be updated to fit the need.
 		values = new double[30];
 
 		for (int i = 0; i < values.length; i++) {
@@ -51,13 +52,13 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 	
 	@Override
 	public int getFeatureNb() {
-		//*** VOTRE CODE
 		return values.length;
 	}
 
 	@Override
 	public double[] getFeatures(Etat e,Action a){
 		//*** VOTRE CODE
+
 		//reinitialize previous id
 		values[lastID] = 0d;
 
@@ -79,6 +80,8 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 
 	private int getID(Etat e, Action a) {
 
+		//If this current state/action has no ID, we assign a new one to it and register it.
+
 		if (!coupleIDs.containsKey(e)) {
 			HashMap<Action, Integer> actionID = new HashMap<>();
 			actionID.put(a, id++);
@@ -94,7 +97,7 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 	@Override
 	public String toString() {
 		String str = "";
-		str += "Nombre de poids = " + id + " / " + values.length + " (taille vecteur)";
+		str += "Nombre de poids = " + id + " / " + values.length + " (array size)";
 		return str;
 	}
 

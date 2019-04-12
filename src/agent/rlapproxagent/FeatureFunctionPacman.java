@@ -28,6 +28,8 @@ public class FeatureFunctionPacman implements FeatureFunction{
 
         vfeatures = new double[nbFeatures];
         means = new double[nbFeatures];
+
+        //init means
         for (int i = 0; i < means.length; i++)
             means[i] = 0d;
 	}
@@ -59,22 +61,24 @@ public class FeatureFunctionPacman implements FeatureFunction{
 		StateGamePacman newStateGame = stategamepacman.nextStatePacman(new ActionPacman(a.ordinal()));
 
 
-		//biais
+		//biais ---
 		vfeatures[0] = 1d; //avec biais
 		//vfeatures[0] = 0d; //sans
 
-		//Nb of ghost on step away
+		//Nb of ghost one step away ---
 		//vfeatures[1] = (double)StateGameFunctions.getNbGhostAtDistance(newStateGame, 1);
 		vfeatures[1] = 0d;
-		//1 if next position has a Dot, 1 else
+
+		//1 if next position has a Dot, 1 else ---
 		boolean nextPosHasDot = StateGameFunctions.nextPositionHasDot(stategamepacman, newStateGame);
 		vfeatures[2] = (nextPosHasDot) ? 1d : 0d;
 		//vfeatures[2] = 0d; //sans
 
-		//distance with closest Dot on feature position
+		//distance with closest Dot on feature position ---
         //vfeatures[3] = StateGameFunctions.getClosestDotDistance(newStateGame);
 		vfeatures[3] = 0d; //sans
 
+		//DEBUG : Store the means value of each functions
 		for (int i = 0; i < means.length; i++) {
 		    means[i] = ( (means[i] * nbCalc) + vfeatures[i] )
                         / (nbCalc + 1);
@@ -85,6 +89,10 @@ public class FeatureFunctionPacman implements FeatureFunction{
 		return vfeatures;
 	}
 
+	/**
+	 * Get the means values of each functions as a string
+	 * @return
+	 */
 	public String meansToString() {
 	    String str = "Means : [";
         for (int i = 0; i < means.length; i++) {

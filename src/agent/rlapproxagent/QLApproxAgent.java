@@ -27,7 +27,7 @@ public class QLApproxAgent extends QLearningAgent{
 		this.weights = new double[_featurefunction.getFeatureNb()];
 
 		for (int i = 0; i < this.weights.length; i++)
-			this.weights[i] = 1d;
+			this.weights[i] = 0d;
 		
 	}
 
@@ -72,13 +72,14 @@ public class QLApproxAgent extends QLearningAgent{
 	@Override
 	public void endEpisode() {
 		if (features instanceof FeatureFunctionIdentity) {
+			//Affiche le nombre de poids utilisés par l'épisode (variable)
 			System.out.println(features.toString());
 		}
 		else {
+			//On affiche les poids de chaque fonctions, et leur moyennes
 			System.out.println(weightsToString(0));
 			System.out.println(((FeatureFunctionPacman)features).meansToString());
 		}
-		//System.out.println(weightsToString(weights.length - 10));
 		super.endEpisode();
 	}
 
@@ -86,7 +87,6 @@ public class QLApproxAgent extends QLearningAgent{
 	@Override
 	public void reset() {
 		super.reset();
-		//this.qvaleurs.clear();
 	
 		//*** VOTRE CODE
 		for (int i = 0; i < this.weights.length; i++)
@@ -96,6 +96,11 @@ public class QLApproxAgent extends QLearningAgent{
 		this.notifyObs();
 	}
 
+	/***
+	 * Renvoie un string avec les poids de l'agent, en partant de l'index donné.
+	 * @param startIndex
+	 * @return
+	 */
 	private String weightsToString(int startIndex) {
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("Weights : [");
@@ -110,19 +115,25 @@ public class QLApproxAgent extends QLearningAgent{
 	    return sb.toString();
     }
 
+	/**
+	 * Increase the size of the weights array if the features size increased. (Meaning FeatureIdentity has a bigger array
+	 * than the current one.)
+	 * @param features
+	 */
 	private void tryExtendWeights(FeatureFunctionIdentity features) {
 
-	    //If the number of weights increased
 		if (features.getFeatureNb() <= weights.length) {
 			return;
 		}
+		//If the number of weights increased
 
+		//Increase the weights array sizes
 		double[] newWeights = new double[features.getFeatureNb()];
-		//Restore existing weights
+		//Restore the existing weights values
 		for (int i = 0; i < weights.length; i++) {
 			newWeights[i] = weights[i];
 		}
-		//Initialize new weights
+		//Initialize new weights to 0
 		for (int i = weights.length; i < features.getFeatureNb(); i++) {
 			newWeights[i] = 0d;
 		}

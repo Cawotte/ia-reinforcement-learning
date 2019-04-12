@@ -9,13 +9,19 @@ import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 
 /***
- * Des fonctions utiles utilisé pour différencier lees états ou comme FeatureFonction du pacman à partir de StateGamePacmans
+ * Des fonctions utiles utilisé pour différencier les états ou
+ * comme FeatureFonction du pacman, à partir de StateGamePacmans
  */
 public class StateGameFunctions {
 
 
     //region features fonction
 
+    /***
+     * Renvoie la distance du point le plus proche du pacman. (Euclidienne?)
+     * @param stateGame
+     * @return
+     */
     public static double getClosestDotDistance(StateGamePacman stateGame) {
 
         StateAgentPacman pacman = stateGame.getPacmanState(0);
@@ -48,6 +54,12 @@ public class StateGameFunctions {
 
     }
 
+    /**
+     * Renvoie vrai si la nouvelle position
+     * @param oldState
+     * @param newState
+     * @return
+     */
     public static boolean nextPositionHasDot(StateGamePacman oldState, StateGamePacman newState) {
 
         return newState.getFoodEaten() > oldState.getFoodEaten();

@@ -33,11 +33,6 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
 		distanceGhost = 0;
 		directionGhost = MazePacman.NORTH; //arbitrary default value
-		/*
-		pac_x = pacman.getX();
-		pac_y = pacman.getY();
-		ghost_x = _stategamepacman.getGhostState(0).getX();
-		ghost_y = _stategamepacman.getGhostState(0).getY(); */
 
 		foodLeft = StateGameFunctions.getFoodLeft(_stategamepacman);
 		foodEaten = _stategamepacman.getCapsulesEaten();
