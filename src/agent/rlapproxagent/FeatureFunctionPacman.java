@@ -70,7 +70,8 @@ public class FeatureFunctionPacman implements FeatureFunction{
 		vfeatures[2] = (nextPosHasDot) ? 1d : 0d;
 
 		//distance with closest Dot on feature position
-		vfeatures[3] = (double)newStateGame.getClosestDot(pacmanstate_next);
+		//vfeatures[3] = (double)newStateGame.getClosestDot(pacmanstate_next);
+		vfeatures[3] = 0d;
 
 		for (int i = 0; i < means.length; i++) {
 		    means[i] = ( (means[i] * nbCalc) + vfeatures[i] )
