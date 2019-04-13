@@ -1,10 +1,7 @@
 package pacman.environnementRL;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
-import pacman.elements.ActionPacman;
 import pacman.elements.MazePacman;
 import pacman.elements.StateAgentPacman;
 import pacman.elements.StateGamePacman;
@@ -46,13 +43,13 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
         //good hash
         directionDot = StateGameFunctions.getDirectionNextDot(_stategamepacman);
         directionGhost = StateGameFunctions.getDirectionClosestGhost(_stategamepacman, 4);
-        distanceGhost = StateGameFunctions.getDistance(pacman, closestGhost, 4);
+        distanceGhost = StateGameFunctions.getManhattanDistance(pacman, closestGhost, 4);
 
         //previously bad hash?
         /*
         distanceDot = _stategamepacman.getClosestDot(pacman);
         directionGhost = StateGameFunctions.getDirection(pacman, closestGhost);
-		distanceGhost = StateGameFunctions.getDistance(pacman, closestGhost); */
+		distanceGhost = StateGameFunctions.getManhattanDistance(pacman, closestGhost); */
 
 		//Coordinate ghost
 		//ghostHash = StateGameFunctions.getGhostPosHash(_stategamepacman);

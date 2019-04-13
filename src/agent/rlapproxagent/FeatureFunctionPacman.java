@@ -20,11 +20,23 @@ public class FeatureFunctionPacman implements FeatureFunction{
 	private static int NBACTIONS = 4;//5 avec NONE possible pour pacman, 4 sinon 
 	//--> doit etre coherent avec EnvironnementPacmanRL::getActionsPossibles
 
-    private final int nbFeatures = 4;
+	private EnumFeatureFunction[] functions;
 
     private double[] means;
     private int nbCalc = 0;
 	public FeatureFunctionPacman() {
+
+		//Each enum represent a feature function.
+		functions = new EnumFeatureFunction[]{
+				EnumFeatureFunction.BIAS,
+				EnumFeatureFunction.DIST_CLOSEST_DOT,
+				//EnumFeatureFunction.DIST_CLOSEST_GHOST,
+				EnumFeatureFunction.NB_CLOSE_GHOST,
+				//EnumFeatureFunction.NB_CLOSE_GHOST_3,
+				EnumFeatureFunction.HAS_DOT,
+		};
+
+		int nbFeatures = functions.length;
 
         vfeatures = new double[nbFeatures];
         means = new double[nbFeatures];
@@ -60,23 +72,12 @@ public class FeatureFunctionPacman implements FeatureFunction{
 		//*** VOTRE CODE
 		StateGamePacman newStateGame = stategamepacman.nextStatePacman(new ActionPacman(a.ordinal()));
 
+		//Compute the featuresFunction result using their enum to get the right function.
+		for (int i = 0; i < functions.length; i++) {
+			vfeatures[i] = functions[i].computeFeatureFunction(stategamepacman, newStateGame);
 
-		//biais ---
-		vfeatures[0] = 1d; //avec biais
-		//vfeatures[0] = 0d; //sans
+		}
 
-		//Nb of ghost one step away ---
-		//vfeatures[1] = (double)StateGameFunctions.getNbGhostAtDistance(newStateGame, 1);
-		vfeatures[1] = 0d;
-
-		//1 if next position has a Dot, 1 else ---
-		boolean nextPosHasDot = StateGameFunctions.nextPositionHasDot(stategamepacman, newStateGame);
-		vfeatures[2] = (nextPosHasDot) ? 1d : 0d;
-		//vfeatures[2] = 0d; //sans
-
-		//distance with closest Dot on feature position ---
-        //vfeatures[3] = StateGameFunctions.getClosestDotDistance(newStateGame);
-		vfeatures[3] = 0d; //sans
 
 		//DEBUG : Store the means value of each functions
 		for (int i = 0; i < means.length; i++) {

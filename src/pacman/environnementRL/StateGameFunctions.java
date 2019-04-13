@@ -5,7 +5,6 @@ import pacman.elements.MazePacman;
 import pacman.elements.StateAgentPacman;
 import pacman.elements.StateGamePacman;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 
 /***
@@ -31,6 +30,21 @@ public class StateGameFunctions {
         return stateGame.getClosestDot(pacman) / (double)(mapX + mapY);
     }
 
+    /***
+     * Renvoie la distance du fantome le plus proche du pacman. (Euclidienne?)
+     * @param stateGame
+     * @return
+     */
+    public static double getClosestGhostDistance(StateGamePacman stateGame) {
+
+        StateAgentPacman pacman = stateGame.getPacmanState(0);
+        StateAgentPacman ghost = getClosestGhost(stateGame, 1000);
+        int mapX = stateGame.getMaze().getSizeX();
+        int mapY = stateGame.getMaze().getSizeY();
+
+        return getDistance(pacman, ghost) / (mapX * mapY);
+    }
+
     /**
      * Compte le nombre de fantome à une distance maxDistance ou moins du Pacman.
      * @param stateGame
@@ -45,7 +59,7 @@ public class StateGameFunctions {
             StateAgentPacman ghost = stateGame.getGhostState(i);
 
             //If that ghost is at distance maxD or less from pacman, count it.
-            if (getDistance(pacman, ghost) <= maxDistance) {
+            if (getManhattanDistance(pacman, ghost) <= maxDistance) {
                 nbGhost++;
             }
         }
@@ -147,7 +161,7 @@ public class StateGameFunctions {
 
         for (int i = 0; i < stateGame.getNumberOfGhosts(); i++) {
             StateAgentPacman ghost = stateGame.getGhostState(i);
-            int distance = getDistance(pacman, ghost);
+            int distance = getManhattanDistance(pacman, ghost);
 
             if ( distance < minDistanceGhost  && distance <= maxDistance) {
                 minDistanceGhost = distance;
@@ -159,18 +173,26 @@ public class StateGameFunctions {
     }
 
     /**
-     * Renvoie la distance entre les deux agents
+     * Renvoie la distance de Manhattan entre les deux agents
      * @param pacman
      * @param ghost
      * @return
      */
-    public static int getDistance(StateAgentPacman pacman, StateAgentPacman ghost) {
+    public static int getManhattanDistance(StateAgentPacman pacman, StateAgentPacman ghost) {
         return (ghost != null) ? Math.abs(ghost.getX() - pacman.getX()) + Math.abs(ghost.getY() - pacman.getY()) : 0;
     }
 
-    public static int getDistance(StateAgentPacman pacman, StateAgentPacman ghost, int maxDistance) {
+    public static int getManhattanDistance(StateAgentPacman pacman, StateAgentPacman ghost, int maxDistance) {
         int distance = (ghost != null) ? Math.abs(ghost.getX() - pacman.getX()) + Math.abs(ghost.getY() - pacman.getY()) : 0;
         return (distance <= maxDistance) ? distance : 0;
+    }
+    public static double getDistance(StateAgentPacman pacman, StateAgentPacman ghost) {
+        if (ghost == null) return 0;
+
+        double deltaX = pacman.getX() - ghost.getX();
+        double deltaY = pacman.getY() - ghost.getY();
+        return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
     }
 
     /***
