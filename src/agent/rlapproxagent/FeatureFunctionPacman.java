@@ -24,6 +24,7 @@ public class FeatureFunctionPacman implements FeatureFunction{
 
     private double[] means;
     private int nbCalc = 0;
+
 	public FeatureFunctionPacman() {
 
 		/***

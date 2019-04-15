@@ -55,82 +55,87 @@ mais qui ont du sens pour la résolution du problème. On peut le voir comme en 
 
 "*Qu'elle est le strict minimum d'informations que j'ai besoin de connaître pour gagner une partie?*"
 
-Voici différents critères avec lesquels j'ai expérimenté :
+Pour éviter de multiplier les états, tout les critères ont des valeurs entières, de plus, tout les calculs de distance de cette partie 
+sont des distances de Manhattan, pour la même raison.
 
-- **La position (x,y) des fantômes** : Des informations sur les fantômes sont impératives, car ils déclenchent la défaite et 
-ont un comportement aléatoire, ce qui fait qu'ils ne peuvent pas être indirectement représenté dans la politique. 
+Voici les différents critères avec lesquels j'ai expérimenté :
+
+- **La position (x,y) des fantômes** : Des informations sur les fantômes sont impératives, car ils provoque une défaite et 
+ont un comportement aléatoire, qui ne peut pas être implicitement représenté dans la politique. 
 
 - **La distance de Manhattan avec les fantômes** : Une tentative de simplification du critère précédent. Un couple de coordonnées peut prendre de
 très nombreuses valeurs différentes, mais beaucoup d'entre elles ont une signification similaire. On cherche ici à condenser l'information et
 réduire le nombre d'états générés par les informations des fantômes. Voici des variantes plus précises qui ont été utilisés :
     - **La distance de Manhattan avec le fantôme le plus proche**
-    - **La distance de Manhattan avec les fantômes à une distance de Manhattan de moins de X (X étant souvent 3)** : 
-    On ignore les fantômes qui sont trop loin pour être considérés une menace, et utilisera une valeur par défaut pour ce cas. 
+    - **La distance de Manhattan avec les fantômes à une distance de Manhattan de moins de 3** : 
+    On ignore les fantômes qui sont trop loin pour être considérés une menace, et on utilise la valeur par défaut 0 dans ce cas.
+On utilise une distance de manhattan au lieu d'une distance euclidienne pour garder des résultats entiers, des réels démultiplierait le nombre d'états.
 
-- **La direction vers laquelle se trouve les fantômes par rapport au Pacman** : En calculant l'angle entre Pacman et les fantômes, il est possible
+- **La direction vers laquelle se trouve le fantôme le plus proche par rapport au Pacman** : En calculant l'angle entre Pacman et les fantômes, il est possible
 d'obtenir une direction général de vers laquelle ils se trouve, NORTH, SOUTH, EAST, WEST. C'est un critère utilisé pour donner plus de sens aux calculs de distance,
 afin de différencier un fantôme à une distance de 3 au Nord et un fantôme à une distance de 3 au Sud.
+    - **Variante : La direction du fantôme le plus proche à une distance de Manhanttan de 3 ou moins** : On ignore les fantômes trop lointain pour être une menace, on renvoie une valeur par
+    défaut si le fantôme est trop loin.
 
-- **La distance du Dot le plus proche** : Le but étant de collecter ces points, il est important d'avoir une information permettant de savoir où les trouver. 
-Je n'ai hélas pas réussi à calculer la direction du Dot le plus proche, cela aurait surement bien marché.
+- **La distance du Dot le plus proche** : Le but étant de collecter des points, il est important d'avoir des informations permettant de savoir où les trouver.
 
-- **Le nombre de Dot mangés** et **le nombre de Dot restants** : Derrière ce choix ce cache l'espoir qu'au fur et à mesure de l'entraînement, le Pacman
+- **La direction du Dot le plus proche** : La direction (EAST, WEST, ect...) du point le plus proche à collecter. Utile pour aider à diriger le pacman vers les récompenses.
+
+- **Le nombre de Dot restants** : Derrière ce choix ce cache l'espoir qu'au fur et à mesure de l'entraînement, le Pacman
 va développer un ordre de ramassage favori des Dot, et ainsi repérer où il en est et vers où se diriger en fonction du nombre de Dot restant ou mangés. 
-
-Je n'ai pas utilisé la position du Pacman comme critère ou d'informations lié à la position du Pacman. Je suis parti du principe que cette information
-existe implicitement à travers les connexions entre les états, à la manière du TP1 sur les grilles. Mais maintenant que j'y repense en rédigeant ce rapport, 
-je me rends compte que j'ai probablement eu tort. Dans le TP1 chaque état représentait la case précise où se trouvait l'agent et donc ils y a bien eu un ancrage géographique concret.
-Ce que j'ai fait est donc bien plus abstrait, et s'apparente plus à une représentation de 'situation', représentant à quel point l'agent est "en danger" ou encore "proche d'un point".
-
-Du coup, j'ai ajouté plus tard une combinaison de critère utilisant la position du pacman pour vérifier si elle était capable de corriger
-les défauts de mes précédents essais.
+C'était un critère surtout utile avant que je réussisse à calculer la direction du dot le plus proche.
 
 
-Dans ma quête d'optimisation des résultats et la tentative de franchir un seuil crédible pour la grille de taille moyenne,
+Voici un tableau de résumé des critères utilisés :
+
+![descriptionQ](./images/desc_Qlearning.png)
+
+Je n'ai pas utilisé la position du Pacman comme critère ou d'informations lié à la position du Pacman. Je suis parti du principe que les informations
+sur les points à collecter et les fantômes à éviter sont les seuls critères vitaux à la réussite de l'agent : Il n'a pas besoin de savoir où il est,
+mais de vers où il doit aller et vers où il ne doit pas aller.
+
+
+Dans ma quête d'optimisation des résultats et de dépasser les 10% de réussite pour la grille de taille moyenne,
 voici un tableau résumant les résultats que j'ai obtenus avec différentes combinaisons de critères, où j'inscris le pourcentage de succès moyen
 du pacman après entraînement, et le nombre d'états moyen générées. (Mon code générant les états au fur et à mesure de leur 
 utilisation, il arrive d'avoir moins d'états que la maximum théorique).
 
-
 Voici une table de résultats obtenus avec différents critères :
 
-|Critères| % de succès<br>smallGrid2 | % de succès<br>smallGrid2 | % de succès<br>mediumGrid
-| -------------------- | ----- | ----- | ---- 
-|- Coordonnées des fantômes<br>- Distance Dot le plus proche<br> | 89%<br>(~100 Etats) | 65%<br>(~180 Etats) | <5%<br>(11 000+ Etats) |
-|- Coordonnées des fantômes<br>- Distance Dot le plus proche<br>- Nombre de dot restants | 92%<br>(~150 Etats) | 85%<br>(~375 Etats) | <5%<br>(17 000+ Etats) |
-|- Distance Dot le plus proche<br>- Distance fantôme le plus proche<br>- Direction fantôme le plus proche | 96%<br>(~130 Etats) | 87%<br>(~140 Etats) | <5%<br>(1 800+ Etats) |
-|- Distance Dot le plus proche<br>- Distance fantôme le plus proche (**si d<4**)<br>- Direction fantôme le plus proche (**si d<4**) | 92%<br>(~63 Etats) | 90%<br>(~54 Etats) | <5%<br>(~300 Etats) |
-|- Coordonnées Pacman<br>- Distance fantôme le plus proche (**si d<4**)<br>- Direction fantôme le plus proche (**si d<4**) | <5%<br>(~80 Etats) | 93%<br>(~135 Etats) | <5%<br>(1 200+ Etats) |
 
-26 etat : 93%, 26 etats : 93%, 26 etats : 81%, medium : 66 etat, 44%
-Au final, je n'aurais pas réussi à avoir un temps raisonnable sur la grille de taille moyenne. Voici par contre plusieurs remarques et 
-observations intéressantes que j'ai pu déduire de mes tests, qui sont surtout valables pour la grille moyenne :
+![resultsQ](./images/results_Qlearning.png)
 
+Des notes et observations sur ses résultats :
 
-**Sur-simplification** : Le revers de l'optimisation. A trop réduire le nombre d'états, il arrive que différentes cases et situations ne sont plus 
-assez différenciables et qu'il prennent des décisions similaire là où il devrait faire plus la différence. C'est surtout important pour la grille moyenne, où
-le pacman s'est régulièrement trouver à errer dans le même coin de la carte sans explorer le reste. En fait, de nombreuses choses découle de ce problème :
+**Sur les quatres premières lignes** se trouvent mes essais pour diminuer le nombre d'états et arriver à un temps de calcul viable sur MediumGrid. 
+J'aurais réussi à baisser le nombre d'états à environ 300, mais en gardant des résultats médiocre sur mediumGrid. 
+La faute étant que je n'avais pas encore réussi à calculer la direction du prochain Dot à ce moment-là, 
+et qu'il manquait des informations sur les dots restants à récupérer. Mon agent devenait un dieu de l'esquive et arrivait
+à éviter les fantômes très longtemps, sans jamais vraiment trouver comment ramasser le prochain dot.
 
+Ensuite, la révélation, j'arrive à calculer la direction du prochain dot ! Le critère le plus fiable pour aider le pacman à ramasser tout les points 
+et gagner. **Les quatres lignes restantes l'utilisent toute.**
 
-**Représentation pas assez géographique?** : Je pense que mes critères n'ont pas assez représenté où en était l'agent géographiquement, et ne lui ont pas permis
-assez d'explorer le terrain pour chercher plus de points, le bloquant dans une zone de la grille car au lieu de voir comment il devait chercher des points,
-il voyait comment devenir un...
+Sur la cinquième ligne, j'obtiens de très bons résultats avec juste 25 états max (pour toute taille de grille!) en utilisant seulement
+la direction du prochain dot et du fantôme le plus proche et pas trop loin, pour donner du sens à la menace. L'agent atteint 50% de réussite sur MediumGrid !
 
-**Un Dieu de l'Esquive** : Oui, quitte à ne pas savoir collecter tout les points, à travers mes critères, Pacman est devenu extrêmement bon pour survivre
-face aux fantômes. A vrai dire le temps de calcul de mes dernières combinaisons de critères sur la grille moyenne était très longue non car il y avait beaucoup d'états,
-mais car il passait facilement plus de 1000-2000 pas d'itérations avant de perdre à chaque essai.  (**Record actuel : 10 001**) Si la récompense par pas était positive,
-mes choix critères aurait sûrement eu des résultats excellents partout.
+Sixième ligne, identique mais je prends la direction du fantôme le plus proche quel que soit la distance, les résultats sont bien plus bancales car en toujours
+la direction d'un fantôme, l'agent ne sais pas à quel point celui-ci le menace vraiment.
 
-**Résultats surprenants avec les coordonnées du Pacman** : Après l'ajout des coordonnées des pacman comme critères pour ma dernière combinaison,
-j'ai eu des résultats très surprenant. L'agent est devenu extrêmement mauvais sur la première petite grille, mais
-il est aussi devenu un Dieu-Dieu de l'Esquive, touchant systématiquement la limite des 10 000 pas. Toutefois il a gardé de très bon résultats
-sur la seconde grille moyenne. 
+**Les meilleurs résultats sont sur l'avant-dernière ligne**, avec la combinaison de direction du fantome proche et de distance du fantome. Les 81% sont atteints sur mediumGrid !
 
-Pour la première petite grille, ses résultats sembleait chuter et atteindre une limite critique vers la moitié/deux-tiers de
-son entraînement, possiblement un bug à l'oeuvre ?
+Petit cas étrange sur la dernière ligne, où l'ajout d'information rend les résultats moins bon ! Le nombre supplémentaire d'états rend peut-être l'entraînement trop difficile ?
 
-**Conclusion** : C'était un exercice intéressant, mais il semblent effectivement que l'approche tabulaire à ses limites, notamment quand on 
-traite des environnements large où qui ne peuvent être représenté simplement. 
+**En conclusion**, pour entraîner correctement un agent, il est impératif d'avoir des critères permettant de correctement représenter les récompenses, positives et négatives.
+Dans notre cas du Pacman, les points à collecter et fantômes à esquiver.
+De plus on trouve les limites de l'apprentissage tabulaire avec la durée des calculs : Trop de critères impliquent trop d'états, qui impliquent un temps de calcul très long.
+Sur certains problèmes complexes, il n'est pas possible de les représenter assez abstraitement pour n'avoir trop d'états.
+
+**Notes :** Vous pouvez facilement tester différentes combinaisons en modifiant le constructeur de EtatPacmanMDPClassic,
+en commentant/décommentant les critères voulus dans la déclaration du tableau ci-dessous. N'oubliez pas de modifier les autres paramètres
+de départ dans testRLPacman.
+
+![testQ](./images/criterias_Qlearning.png)
 
 ## Question 2:
 *Précisez et justifiez les fonctions caractéristiques que vous avez choisies pour la classe FeatureFunctionPacman (partie 2.3).*
