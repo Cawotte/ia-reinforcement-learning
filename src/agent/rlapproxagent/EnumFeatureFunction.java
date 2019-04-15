@@ -3,14 +3,23 @@ package agent.rlapproxagent;
 import pacman.elements.StateGamePacman;
 import pacman.environnementRL.StateGameFunctions;
 
+/**
+ * Associe un Enum à chaque Feature Fonction utilisable
+ */
 public enum EnumFeatureFunction {
     BIAS,
-    NB_CLOSE_GHOST,
     HAS_DOT,
     DIST_CLOSEST_DOT,
-    NB_CLOSE_GHOST_3,
-    DIST_CLOSEST_GHOST;
+    DIST_CLOSEST_GHOST,
+    NB_CLOSE_GHOST,
+    NB_CLOSE_GHOST_3;
 
+    /***
+     * Calcule et renvoie le résultat de la feature function associé à l'enum
+     * @param oldState
+     * @param newState
+     * @return
+     */
     public double computeFeatureFunction(StateGamePacman oldState, StateGamePacman newState) {
         switch (this) {
             case BIAS:

@@ -59,10 +59,8 @@ public class QLApproxAgent extends QLearningAgent{
 		}
        //inutile de verifier si e etat absorbant car dans runEpisode et threadepisode 
 		//arrete episode lq etat courant absorbant	
-		
-		//*** VOTRE CODE
+
 		//Update weights
-		double[] featuresValues = features.getFeatures(e,a);
 		double suivVal = getValeur(esuivant);
 		double qVal = getQValeur(e, a);
 		for (int i = 0; i < weights.length; i++) {

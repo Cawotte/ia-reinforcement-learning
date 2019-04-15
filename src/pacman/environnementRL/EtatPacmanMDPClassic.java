@@ -26,18 +26,20 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
         /***
          * Sélectionnez les critères voulus ici !
+         * Commentez/Décommentez les critères à utiliser.
          */
 	    criterias = new Criterias[]{
                 Criterias.DISTANCE_DOT,
-                //Criterias.DIRECTION_CLOSEST_DOT,
+                Criterias.DIRECTION_CLOSEST_DOT,
                 //Criterias.DISTANCE_CLOSEST_GHOST,
-                //Criterias.DISTANCE_CLOSEST_GHOST_DIST3,
+                Criterias.DISTANCE_CLOSEST_GHOST_DIST3,
                 //Criterias.DIRECTION_CLOSEST_GHOST,
-                //Criterias.DIRECTION_CLOSEST_GHOST_DIST3,
+                Criterias.DIRECTION_CLOSEST_GHOST_DIST3,
                 //Criterias.FOOD_EATEN,
-                Criterias.GHOST_COORDINATES,
+                //Criterias.GHOST_COORDINATES,
         };
 
+        //Calculate hashCode from criterias
 	    hashCriterias = new int[criterias.length];
 	    for (int i = 0; i < criterias.length; i++) {
             hashCriterias[i] = criterias[i].CriteriaHash(_stategamepacman);
@@ -45,6 +47,9 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
 
 	}
 
+    /***
+     * Private enum type used to associate the appropriate function to each criteria
+     */
 	private enum Criterias {
         DISTANCE_DOT,
         DIRECTION_CLOSEST_DOT,
@@ -55,6 +60,11 @@ public class EtatPacmanMDPClassic implements Etat , Cloneable{
         FOOD_EATEN,
         GHOST_COORDINATES;
 
+        /***
+         * Renvoie le résultat de la fonction associé au critère, qui sera utilisé pour le hash
+         * @param stateGame
+         * @return
+         */
         public int CriteriaHash(StateGamePacman stateGame) {
 
             StateAgentPacman pacman = stateGame.getPacmanState(0);

@@ -30,6 +30,11 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 	protected int lastID = 0;
 	protected double[] values;
 
+	/***
+	 * DECREPATED! The size is now dynamic, use FeatureFunctionIdentity()
+	 * @param _nbEtat
+	 * @param _nbAction
+	 */
 	public FeatureFunctionIdentity(int _nbEtat, int _nbAction){
 		//*** VOTRE CODE
 		values = new double[_nbEtat * _nbAction];
@@ -57,7 +62,6 @@ public class FeatureFunctionIdentity implements FeatureFunction {
 
 	@Override
 	public double[] getFeatures(Etat e,Action a){
-		//*** VOTRE CODE
 
 		//reinitialize previous id
 		values[lastID] = 0d;

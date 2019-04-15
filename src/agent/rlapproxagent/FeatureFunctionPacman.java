@@ -26,7 +26,10 @@ public class FeatureFunctionPacman implements FeatureFunction{
     private int nbCalc = 0;
 	public FeatureFunctionPacman() {
 
-		//Each enum represent a feature function.
+		/***
+		 * Choississez ici les features function à utiliser !
+		 * Commenter/Décommenter les features fonctions à tester.
+		 */
 		functions = new EnumFeatureFunction[]{
 				EnumFeatureFunction.BIAS,
 				EnumFeatureFunction.DIST_CLOSEST_DOT,

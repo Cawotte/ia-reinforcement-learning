@@ -28,7 +28,7 @@ import agent.strategy.StrategyExplorationTest1;
 
 public class testRLPacman extends Application{
 	/** type de labyrinthe pour le jeu de pacman*/
-	static String mazename = "pacmanlayouts/smallGrid.lay";//smallGrid smallGrid2 mediumGrid
+	static String mazename = "pacmanlayouts/mediumGrid.lay";//smallGrid smallGrid2 mediumGrid
 
 	// parametres RL*/
 	static double gamma=0.8;
@@ -67,7 +67,15 @@ public class testRLPacman extends Application{
 	
 	private static void setRLAgent(){
 
-	    int choiceLearning = 0;
+		/***
+		 * Modifier cette int pour choisir le type de Learning :
+		 * 0 = Qlearning Tabulaire
+		 * 		(Modifiez les critères de différentiations des états dans la classe EtatPacmanMDPClassic)
+		 * 1 = FeatureFunctionIdentity
+		 * 2 = FeatureFunctions
+		 * 		(Modifiez les Features Functions de différentiations des états dans la classe FeatureFunctionPacman)
+		 */
+	    int choiceLearning = 2;
 
 	    if (choiceLearning == 0) {
 
