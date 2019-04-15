@@ -140,4 +140,106 @@ de départ dans testRLPacman.
 ## Question 2:
 *Précisez et justifiez les fonctions caractéristiques que vous avez choisies pour la classe FeatureFunctionPacman (partie 2.3).*
 
-Smallgrid : Distance dot, ghost x, ghost y
+Les Fonctions Caractéristiques sont différentes des critères tabulaires utilisés auparavant sur plusieurs aspects :
+- Elles ne sont pas limités à des résultats entiers, il est même presque préférable d'utiliser des réels. 
+- La fonction doit permettre de choisir la meilleur action parmis celle possibles à partir d'un même état, il faut donc
+prendre en compte l'action choisie (ou la position future du pacman après celle-ci) dans le calcul.
+- La fonction doit avoir une interprétation linéaire simple, c'est-à-dire : Plus la valeur est grande, mieux c'est,
+ou plus la valeur est petite, mieux c'est. On va additioner les résultats pour savoir quelle action est la meilleure, 
+il ne faut donc pas qu'un résultat de 3 soit à la fois plus important qu'un 1 et un 5. C'est pour ça qu'on ne peut pas prendre 
+une direction comme résultat, comme dans la partie précédente. Les poids peuvent ajuster le signe du résultat. 
+
+De plus, sauf contre-indication, les distances seront toutes des **distances euclidiennes** (au contraire de la partie précédente), divisées par la 
+ taille de la carte (map.X + map.Y). Les résultats que j'ai eu avec une distance de Manhattan était assez médiocre, et si je ne 
+ divise pas les résultats par la taille de la carte j'ai des résultats chaotiques où les valeurs des poids atteignent un StackOverflow du type Double.
+ Même si je n'ai pas bien compris pourquoi.
+ 
+Comme précédemment, le plus important est d'avoir des critères permettant d'avoir des informations sur les points à collecter
+et les fantômes à esquiver. Généralement, les fonctions sur les points se verront associées des poids positifs, tandis que 
+les fonctions sur les fantômes des poids négatifs.
+
+ Voici donc un descriptif des fonctions caractéristiques utilisées :
+ 
+![descriptionFF](./images/desc_FeatureFunctions.png)
+
+Plusieurs des fonctions sont celles proposés dans le sujet du TP, mais voici quand même un explicatif pour chaque choix :
+
+- **Le Biais** : Une valeur fixe quasi toujours présente, permet à l'algorithme de se créer une constante pour ajuster 
+ses résultats, mais j'ai quand même pu avoir des résultats intéressants sans l'utiliser. (*Fonction du Sujet*)
+
+- **Nombre de fantômes proches** : Permet de savoir si la case cible est dangereuse et présente 
+    un risque immédiat de se faire manger par un fantôme. (*Fonction du Sujet*)
+    
+- **Nombre de fantômes proches (d < 4)** : Une version plus élargie du critère précédent, où on compte tout les fantômes
+à une distance de manhattan de 3 ou moins. Permet de savoir si il y a des
+fantômes *pas trop loin* du pacman. Le résultat est moins immédiatement interprétable que le précédent, mais étonnament,
+j'ai eu mes meilleurs résultats quand il était utilisé de pair avec la fonction précédente.
+
+- **Distance du fantôme le plus proche de la prochaine position** : Permet de mieux jauger le danger d'un fantôme.
+
+- **Distance du Dot le plus proche de la prochaine position** : Permet de mieux orienter le pacman en jaugeant quelle direction
+nous rapproche le plus d'une récompense. (*Fonction du Sujet*)
+
+- **Présence d'un Dot sur la prochaine position** : Permet de savoir si il y a une récompense immédiate à saisir sur la prochaine case!
+Peut-être plus impactant que la distance, car on peut plus facilement y mettre un gros poids afin d'avoir une valeur imposante dans le calcul (*Fonction du Sujet*)
+
+
+Voici maintenant un tableau des résultats obtenus sur les différentes grilles avec de nombreuses combinaisons de critères différents :
+
+![resultsFF](./images/results_FeatureFunctions.png)
+
+Toute de suite, on remarque des résultats bien meilleurs en général sur MediumGrid, le temps de calcul est aussi bien plus court, car
+il ne dépend plus d'un nombre d'états très élevés, on cherche juste quelles fonctions doivent avoir le plus d'impact sur nos choix. Le
+temps de calcul étant principalement composé du temps de calcul de ces fonctions.
+
+**Les 5 premières lignes** utilisent uniquement les fonctions caractéristiques données dans le sujet. 
+On remarquera que plutôt étrangement, les résultats étaient légèrement meilleur sans le biais. 
+
+Un autre cas particulier, lorsqu'on utilise juste le Biais et le nombre de fantôme, sans informations sur les dot, l'agent
+arrive quand même à résoudre les niveaux. Toutefois on remarque que quasi tout ses scores sur mediumGrid sont négatifs ! L'agent 
+arrive à gagner, mais tellement tardivement que ses points restent négatifs ! Il doit passer son temps à esquiver et finir éventuellement
+par atteindre tout les points.
+
+Expérience inverse sur la 5ème ligne, avec juste des informations sur les Dot et pas les fantômes : Cette fois-ci l'agent n'arrive à rien.
+En y repensant il aurait probablement pu avoir des résultats un poil meilleur si la distance des dot étaient prises en compte, pour
+avoir une idée de vers où aller.
+
+La 6ème ligne est assez étrange, on prends les informations sur les points et les fantômes pas trop loin, et l'agent n'arrive 
+à rien sur smallGrid2 ! Ayant même des meilleurs résultats sur mediumGrid. De plus, j'ai observé une grande variance des résultats sur
+smallGrid2, j'ai réussi aussi bien à avoir 2% de réussite que 21% sur des moyennes de 3 essais.
+
+Sur la 7ème ligne, en prenant la même chose que précédemment et retirant la distance, les résultats sont bien meilleures ! Un nouveau cas étonnant,
+où la perte d'informations entraîne des résultats plus précis.
+
+Sur la 8ème ligne, on peut voir que la combinaison du nombre de fantôme très proche et proche (dist < 4) donne des résultats époustouflant
+et inattendus, avec 72% de réussite sur mediumGrid !
+
+J'ai fait une nouvelle tentative de combinaison sans informations sur les points, avec la distance du fantôme proche et le nombre 
+de fantôme proche (d < 4), mais les résultats sont encore plus catastrophique que précédemment, avec pourtant des critères qui semblerait
+plus précis.
+
+Sur l'avant-dernière ligne, une autre tentative n'utilisant pas le biais, avec beaucoup d'information sur les fantômes et les Dot,
+mais les résultats sont ici très faible et mauvais même sur smallGrid et smallGrid2.
+
+Enfin viens un essai où j'ai essayé toutes les fonctions en même temps, qui a donné d'excellents résultats, avec 80% de réussite sur mediumGrid !
+
+
+En conclusion, ce que j'ai retenu de mes tests :
+- Il faut impérativement avoir des informations sur les fantômes ET les points à collecter pour avoir de meilleurs résultats.
+- Plus de fonctions n'est toujours pas mieux, parfois moins de fonctions caractéristiques fonctionne mieux. Serait-il possible
+que plus d'entraînement ai été nécessaire ? Pourtant le dernier essai a bien réussi avec la même durée d'entraînement et 
+plus de fonctions.
+- Les fonctions caractéristiques 'radicales' semblent plus efficaces : J'appelle radicale les fonctions avec des 
+informations sur une récompense immédiate, le nombre de fantôme à un pas de 1 ou la présence
+d'un dot sur la prochaine case représente un gain ou perte de récompense immédiate sur la prochaine case, 
+alors que les fonctions plus progressive, tel que la distance ou le nombre de fantôme lointain, est moins directement 
+interprétable, et semble avoir une moins bonne performance, sans être inutile. 
+
+Maintenant, entre l'approche **Tabulaire** et l'approche **d'Approximation Linéaire**, cette dernière me semble mieux.
+Il est possible d'avoir de très bons résultats avec l'approche tabulaire, mais souvent au prix de plus d'efforts et d'un temps
+de calcul bien plus elévé, et il est plus simple d'atteindre des résultats équivalents, si ce n'est mieux, avec l'approche linéaire.
+
+Enfin, vous pouvez tester vous-même mon programme et différentes combinaisons en éditant ce tableau dans la classe FeatureFunctionPacman,
+en commentant/décommentant les fonctions caractéristiques voulues avant de lancer le programme.
+
+![testFF](./images/test_FeatureFunctions.png)
