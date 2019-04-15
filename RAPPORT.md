@@ -88,7 +88,7 @@ C'était un critère surtout utile avant que je réussisse à calculer la direct
 
 Voici un tableau de résumé des critères utilisés :
 
-![descriptionQ](./images/desc_Qlearning.png)
+![descriptionQ](./images/desc_QLearning.png)
 
 Je n'ai pas utilisé la position du Pacman comme critère ou d'informations lié à la position du Pacman. Je suis parti du principe que les informations
 sur les points à collecter et les fantômes à éviter sont les seuls critères vitaux à la réussite de l'agent : Il n'a pas besoin de savoir où il est,
@@ -103,7 +103,7 @@ utilisation, il arrive d'avoir moins d'états que la maximum théorique).
 Voici une table de résultats obtenus avec différents critères :
 
 
-![resultsQ](./images/results_Qlearning.png)
+![resultsQ](./images/results_QLearning.png)
 
 Des notes et observations sur ses résultats :
 
