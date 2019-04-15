@@ -1,0 +1,545 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File href="../results_QLearning.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\,";
+	mso-displayed-thousand-separator:" ";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(0);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../results_QLearning.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#0563C1" vlink="#954F72">
+
+<table border=0 cellpadding=0 cellspacing=0 width=1878 style='border-collapse:
+ collapse;table-layout:fixed;width:1410pt'>
+ <col width=86 style='mso-width-source:userset;mso-width-alt:3145;width:65pt'>
+ <col width=160 style='mso-width-source:userset;mso-width-alt:5851;width:120pt'>
+ <col width=257 style='mso-width-source:userset;mso-width-alt:9398;width:193pt'>
+ <col width=279 style='mso-width-source:userset;mso-width-alt:10203;width:209pt'>
+ <col width=122 style='mso-width-source:userset;mso-width-alt:4461;width:92pt'>
+ <col width=124 style='mso-width-source:userset;mso-width-alt:4534;width:93pt'>
+ <col width=113 style='mso-width-source:userset;mso-width-alt:4132;width:85pt'>
+ <col width=108 span=2 style='mso-width-source:userset;mso-width-alt:3949;
+ width:81pt'>
+ <col width=80 span=2 style='width:60pt'>
+ <col width=201 style='mso-width-source:userset;mso-width-alt:7350;width:151pt'>
+ <col width=80 span=2 style='width:60pt'>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 width=86 style='height:15.0pt;width:65pt'></td>
+  <td width=160 style='width:120pt'></td>
+  <td width=257 style='width:193pt'></td>
+  <td width=279 style='width:209pt'></td>
+  <td width=122 style='width:92pt'></td>
+  <td width=124 style='width:93pt'></td>
+  <td width=113 style='width:85pt'></td>
+  <td width=108 style='width:81pt'></td>
+  <td width=108 style='width:81pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=201 style='width:151pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=14 style='height:15.0pt;mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl65 width=279 style='width:209pt'></td>
+  <td class=xl65 width=122 style='width:92pt'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 colspan=2 style='height:45.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl92 width=279 style='width:209pt'><span style='orphans: auto;
+  text-align:start;widows: auto;-webkit-text-stroke-width: 0px'>Critères
+  choisis</span></td>
+  <td class=xl93 width=122 style='border-left:none;width:92pt'>~% de succès sur
+  <font class="font5">SmallGrid</font><font class="font0"><br>
+    (Nombre Etats)</font></td>
+  <td class=xl93 width=124 style='border-left:none;width:93pt'>~% de succès sur
+  <font class="font5">SmallGrid2</font><font class="font0"><br>
+    (Nombre Etats)</font></td>
+  <td class=xl93 width=113 style='border-left:none;width:85pt'>~% de succès sur
+  <font class="font5">mediumGrid</font><font class="font0"><br>
+    (Nombre Etats)</font></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=40 style='height:30.0pt'>
+  <td height=40 colspan=2 style='height:30.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl94 width=279 style='width:209pt'><span style='orphans: auto;
+  text-align:start;widows: auto;-webkit-text-stroke-width: 0px'><span
+  style='orphans: auto;text-align:start;widows: auto;-webkit-text-stroke-width: 0px'><span
+  style='mso-spacerun:yes'> </span>- Coordonnées des fantômes<br>
+    - Distance Dot le plus proche</span></span></td>
+  <td class=xl71 width=122 style='border-top:none;border-left:none;width:92pt'>90%<br>
+    (~100 Etats)</td>
+  <td class=xl72 width=124 style='border-top:none;width:93pt'>65%<br>
+    (~180 Etats)</td>
+  <td class=xl73 width=113 style='border-top:none;width:85pt'>TROP LONG<br>
+    (~11 000+ Etats)</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 colspan=2 style='height:45.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='orphans: auto;text-align:start;widows: auto;-webkit-text-stroke-width: 0px'><span
+  style='orphans: auto;text-align:start;widows: auto;-webkit-text-stroke-width: 0px'><span
+  style='mso-spacerun:yes'> </span>- Coordonnées des fantômes<br>
+    - Distance Dot le plus proche<br>
+    - Nombre de dot restants</span></span></td>
+  <td class=xl74 width=122 style='border-left:none;width:92pt'>95%<br>
+    (~150 Etats)</td>
+  <td class=xl75 width=124 style='width:93pt'>85%<br>
+    (~375 Etats)</td>
+  <td class=xl76 width=113 style='width:85pt'>TROP LONG<br>
+    (~17 000+ Etats)</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 colspan=2 style='height:45.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='mso-spacerun:yes'> </span>- Distance Dot le plus proche<br>
+    - Distance fantôme le plus proche<br>
+    - Direction fantôme le plus proche</td>
+  <td class=xl74 width=122 style='border-left:none;width:92pt'>96%<br>
+    (~130 Etats)</td>
+  <td class=xl75 width=124 style='width:93pt'>87%<br>
+    (~140 Etats)</td>
+  <td class=xl76 width=113 style='width:85pt'>TROP LONG<br>
+    (~1 800+ Etats)</td>
+  <td class=xl68 width=108 style='width:81pt'></td>
+  <td class=xl68 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 colspan=2 style='height:45.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='mso-spacerun:yes'> </span>- Distance Dot le plus proche<br>
+    - Distance fantôme le plus proche (si d&lt;4)<br>
+    - Direction fantôme le plus proche (si d&lt;4)</td>
+  <td class=xl74 width=122 style='border-left:none;width:92pt'>90%<br>
+    (~63 Etats)</td>
+  <td class=xl75 width=124 style='width:93pt'>90%<br>
+    (~54 Etats)</td>
+  <td class=xl76 width=113 style='width:85pt'>2%<br>
+    (~300 Etats)</td>
+  <td class=xl68 width=108 style='width:81pt'></td>
+  <td class=xl68 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=40 style='height:30.0pt'>
+  <td height=40 colspan=2 style='height:30.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='mso-spacerun:yes'> </span>- Direction Dot le plus proche<br>
+    - Direction fantôme le plus proche (d &lt; 4)</td>
+  <td class=xl74 width=122 style='border-left:none;width:92pt'>97%<br>
+    (~25 Etats)</td>
+  <td class=xl75 width=124 style='width:93pt'>84%<br>
+    (~25 Etats)</td>
+  <td class=xl78 width=113 style='width:85pt'>50%<br>
+    (~25 Etats)</td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=40 style='height:30.0pt'>
+  <td height=40 colspan=2 style='height:30.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='mso-spacerun:yes'> </span>- Direction Dot le plus proche<br>
+    - Direction fantôme le plus proche</td>
+  <td class=xl79 width=122 style='border-left:none;width:92pt'>68%<br>
+    (~20 Etats)</td>
+  <td class=xl77 width=124 style='width:93pt'>3%<br>
+    (~20 Etats)</td>
+  <td class=xl80 width=113 style='width:85pt'>16%<br>
+    (~20 Etats)</td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 colspan=2 style='height:45.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='mso-spacerun:yes'> </span>- Direction Dot le plus proche<br>
+    - Direction fantôme le plus proche (d &lt; 4)<br>
+    - Distance fantôme<span style='mso-spacerun:yes'>  </span>le plus proche</td>
+  <td class=xl74 width=122 style='border-left:none;width:92pt'>95%<br>
+    (~36 Etats)</td>
+  <td class=xl75 width=124 style='width:93pt'>88%<br>
+    (~37 Etats)</td>
+  <td class=xl78 width=113 style='width:85pt'>81%<br>
+    (~166 Etats)</td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=80 style='height:60.0pt'>
+  <td height=80 colspan=2 style='height:60.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl95 width=279 style='border-top:none;width:209pt'><span
+  style='mso-spacerun:yes'> </span>- Direction Dot le plus proche<br>
+    - Distance Dot le plus proche<br>
+    - Distance fantôme<span style='mso-spacerun:yes'>  </span>le plus proche (d
+  &lt; 4)<br>
+    - Direction fantôme<span style='mso-spacerun:yes'>  </span>le plus proche
+  (d &lt; 4)</td>
+  <td class=xl81 width=122 style='border-left:none;width:92pt'>90%<br>
+    (~118 Etats)</td>
+  <td class=xl82 width=124 style='width:93pt'>90%<br>
+    (~161 Etats)</td>
+  <td class=xl96 width=113 style='width:85pt'>40%<br>
+    (~1200+ Etats)</td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl70 width=279 style='width:209pt'></td>
+  <td class=xl67 width=122 style='width:92pt'></td>
+  <td class=xl67 width=124 style='width:93pt'></td>
+  <td class=xl67 width=113 style='width:85pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl70 width=279 style='width:209pt'></td>
+  <td class=xl68 width=122 style='width:92pt'></td>
+  <td class=xl68 width=124 style='width:93pt'></td>
+  <td class=xl68 width=113 style='width:85pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl70 width=279 style='width:209pt'></td>
+  <td class=xl69></td>
+  <td class=xl68 width=124 style='width:93pt'></td>
+  <td class=xl68 width=113 style='width:85pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl66 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'></td>
+  <td class=xl83 width=160 style='width:120pt'>Critères utilisés</td>
+  <td class=xl84 width=257 style='width:193pt'>Description</td>
+  <td class=xl70 width=279 style='width:209pt'></td>
+  <td class=xl69></td>
+  <td class=xl68 width=124 style='width:93pt'></td>
+  <td class=xl68 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 style='height:45.0pt'></td>
+  <td class=xl86 width=160 style='border-top:none;width:120pt'>Coordonnées
+  fantômes proches</td>
+  <td class=xl85 width=257 style='width:193pt'>Génère un hash à partir des
+  coordonnées de chaque fantômes.</td>
+  <td class=xl70 width=279 style='width:209pt'></td>
+  <td class=xl69></td>
+  <td class=xl68 width=124 style='width:93pt'></td>
+  <td class=xl68 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=40 style='height:30.0pt'>
+  <td height=40 style='height:30.0pt'></td>
+  <td class=xl88 width=160 style='width:120pt'>Distance Dot le plus proche</td>
+  <td class=xl89 width=257 style='width:193pt'>Distance de Manhattan.</td>
+  <td class=xl70 width=279 style='width:209pt'></td>
+  <td></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'></td>
+  <td class=xl87 width=160 style='width:120pt'>Nombre de Dots restant</td>
+  <td class=xl85 width=257 style='width:193pt'>&nbsp;</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=40 style='height:30.0pt'>
+  <td height=40 style='height:30.0pt'></td>
+  <td class=xl88 width=160 style='width:120pt'><font class="font9">Distance</font><font
+  class="font0"> fantome le plus proche</font></td>
+  <td class=xl89 width=257 style='width:193pt'>Distance de Manhattan.</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=80 style='height:60.0pt'>
+  <td height=80 style='height:60.0pt'></td>
+  <td class=xl87 width=160 style='width:120pt'><font class="font9">Distance</font><font
+  class="font0"> fantome le plus proche (si d &lt;= 3 )</font></td>
+  <td class=xl85 width=257 style='width:193pt'>Si le fantôme est à une distance
+  &gt; 3 du Pacman, renvoie la valeur par défaut 0.</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=60 style='height:45.0pt'>
+  <td height=60 style='height:45.0pt'></td>
+  <td class=xl88 width=160 style='width:120pt'><font class="font9">Direction</font><font
+  class="font0"> fantôme le plus proche</font></td>
+  <td class=xl89 width=257 style='width:193pt'>Renvoie la direction du fantôme
+  le plus proche (NORTH, EAST, ect..)</td>
+  <td></td>
+  <td class=xl65 width=122 style='width:92pt'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=80 style='page-break-before:always;height:60.0pt'>
+  <td height=80 style='height:60.0pt'></td>
+  <td class=xl87 width=160 style='width:120pt'><font class="font9">Direction</font><font
+  class="font0"> fantôme le plus proche (si d &lt;= 3)</font></td>
+  <td class=xl85 width=257 style='width:193pt'>Si le fantôme est à une distance
+  &gt; 3 du Pacman, renvoie la valeur par défaut DIRECTION.STOP</td>
+  <td></td>
+  <td class=xl65 width=122 style='width:92pt'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=100 style='height:75.0pt'>
+  <td height=100 style='height:75.0pt'></td>
+  <td class=xl90 width=160 style='width:120pt'><font class="font9">Direction</font><font
+  class="font0"> valide du Dot le plus proche</font></td>
+  <td class=xl91 width=257 style='width:193pt'>(NORTH, EAST, ect..)<br>
+    On regarde ici uniquement les cases vers lesquels le pacman peut se
+  déplacer</td>
+  <td></td>
+  <td class=xl65 width=122 style='width:92pt'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'></td>
+  <td class=xl68 width=160 style='width:120pt'></td>
+  <td class=xl68 width=257 style='width:193pt'></td>
+  <td></td>
+  <td class=xl65 width=122 style='width:92pt'></td>
+  <td class=xl65 width=124 style='width:93pt'></td>
+  <td class=xl65 width=113 style='width:85pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=257 style='width:193pt'></td>
+  <td class=xl65 width=279 style='width:209pt'></td>
+  <td colspan=3 style='mso-ignore:colspan'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=108 style='width:81pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=201 style='width:151pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+  <td class=xl65 width=80 style='width:60pt'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=3 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=279 style='width:209pt'></td>
+  <td colspan=10 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=3 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=279 style='width:209pt'></td>
+  <td colspan=10 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=3 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td class=xl65 width=279 style='width:209pt'></td>
+  <td colspan=10 style='mso-ignore:colspan'></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=86 style='width:65pt'></td>
+  <td width=160 style='width:120pt'></td>
+  <td width=257 style='width:193pt'></td>
+  <td width=279 style='width:209pt'></td>
+  <td width=122 style='width:92pt'></td>
+  <td width=124 style='width:93pt'></td>
+  <td width=113 style='width:85pt'></td>
+  <td width=108 style='width:81pt'></td>
+  <td width=108 style='width:81pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=201 style='width:151pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=80 style='width:60pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>
