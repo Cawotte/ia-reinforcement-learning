@@ -28,7 +28,7 @@ import agent.strategy.StrategyExplorationTest1;
 
 public class testRLPacman extends Application{
 	/** type de labyrinthe pour le jeu de pacman*/
-	static String mazename = "pacmanlayouts/smallGrid2.lay";//smallGrid smallGrid2 mediumGrid
+	static String mazename = "pacmanlayouts/smallGrid.lay";//smallGrid smallGrid2 mediumGrid
 
 	// parametres RL*/
 	static double gamma=0.8;
@@ -67,7 +67,7 @@ public class testRLPacman extends Application{
 	
 	private static void setRLAgent(){
 
-	    int choiceLearning = 2;
+	    int choiceLearning = 0;
 
 	    if (choiceLearning == 0) {
 

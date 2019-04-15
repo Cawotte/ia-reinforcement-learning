@@ -63,8 +63,11 @@ public class QLApproxAgent extends QLearningAgent{
 		//*** VOTRE CODE
 		//Update weights
 		double[] featuresValues = features.getFeatures(e,a);
+		double suivVal = getValeur(esuivant);
+		double qVal = getQValeur(e, a);
 		for (int i = 0; i < weights.length; i++) {
-			weights[i] = weights[i] + alpha * (reward + (gamma * getValeur(esuivant)) - getQValeur(e, a)) * featuresValues[i];
+			weights[i] = weights[i] + alpha * (reward + (gamma * suivVal) - qVal)
+					* features.getFeatures(e,a)[i];
 		}
 		maxValues.clear();
 

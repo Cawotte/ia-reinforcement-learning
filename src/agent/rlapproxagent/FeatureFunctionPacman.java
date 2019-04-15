@@ -30,9 +30,9 @@ public class FeatureFunctionPacman implements FeatureFunction{
 		functions = new EnumFeatureFunction[]{
 				EnumFeatureFunction.BIAS,
 				EnumFeatureFunction.DIST_CLOSEST_DOT,
-				//EnumFeatureFunction.DIST_CLOSEST_GHOST,
+				EnumFeatureFunction.DIST_CLOSEST_GHOST,
 				EnumFeatureFunction.NB_CLOSE_GHOST,
-				//EnumFeatureFunction.NB_CLOSE_GHOST_3,
+				EnumFeatureFunction.NB_CLOSE_GHOST_3,
 				EnumFeatureFunction.HAS_DOT,
 		};
 

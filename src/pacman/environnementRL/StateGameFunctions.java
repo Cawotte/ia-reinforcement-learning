@@ -38,11 +38,25 @@ public class StateGameFunctions {
     public static double getClosestGhostDistance(StateGamePacman stateGame) {
 
         StateAgentPacman pacman = stateGame.getPacmanState(0);
-        StateAgentPacman ghost = getClosestGhost(stateGame, 1000);
+
+        StateAgentPacman closestGhost = null;
+        double minDistanceGhost = Integer.MAX_VALUE;
+
+        for (int i = 0; i < stateGame.getNumberOfGhosts(); i++) {
+
+            StateAgentPacman ghost = stateGame.getGhostState(i);
+            double distance = getDistance(pacman, ghost);
+
+            if (closestGhost == null || minDistanceGhost > distance) {
+                minDistanceGhost = distance;
+                closestGhost = ghost;
+            }
+        }
+
         int mapX = stateGame.getMaze().getSizeX();
         int mapY = stateGame.getMaze().getSizeY();
 
-        return getDistance(pacman, ghost) / (mapX * mapY);
+        return minDistanceGhost / (mapX * mapY);
     }
 
     /**
@@ -82,8 +96,8 @@ public class StateGameFunctions {
 
     //endregion
 
-    public static int getFoodLeft(StateGamePacman stateGame) {
-        return stateGame.getMaze().getNbfood() - stateGame.getCapsulesEaten();
+    public static int getFoodEaten(StateGamePacman stateGame) {
+        return stateGame.getMaze().getNbfood();
     }
 
     /**
@@ -209,9 +223,9 @@ public class StateGameFunctions {
         StateAgentPacman ghost = getClosestGhost(stateGame, maxDistance);
 
         if (ghost == null)
-            return MazePacman.STOP;
+            return MazePacman.STOP; //default value if ghost too far
         else
-            return getDirection(stateGame.getPacmanState(0), getClosestGhost(stateGame, maxDistance));
+            return getDirection(stateGame.getPacmanState(0), ghost);
     }
 
     public static int getDirectionClosestGhost(StateGamePacman stateGame) {
